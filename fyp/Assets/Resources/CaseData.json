@@ -30,11 +30,27 @@
             {
               "choiceText": "死刑",
               "choiceResult": "Death",
-              "nextStageID": "END_CASE"
+              "nextStageID": "Method"
             },
             {
               "choiceText": "徒刑",
               "choiceResult": "Prison",
+              "nextStageID": "END_CASE"
+            }
+          ]
+        },
+        {
+          "stageID": "Method",
+          "stageTitle": "执行方式阶段",
+          "choices": [
+            {
+              "choiceText": "秘密执行",
+              "choiceResult": "Private",
+              "nextStageID": "END_CASE"
+            },
+            {
+              "choiceText": "公开执行",
+              "choiceResult": "Public",
               "nextStageID": "END_CASE"
             }
           ]

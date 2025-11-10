@@ -1,0 +1,37 @@
+{
+  "FactionChats": [
+    {
+      "factionID": 0,
+      "factionName": "真理部",
+      "chatGroups": [
+        {
+          "groupName": "开庭前提示",
+          "messages": [
+            "尊敬的法官，本案涉及算法规则，请谨慎判决。",
+            "请参考旧 AI 系统的量刑模型。"
+          ]
+        },
+        {
+          "groupName": "第一个案子结束",
+          "messages": [
+            "第一个案件的判决已完成，请注意对下一案件的指引。",
+            "保持理性，避免情绪化。"
+          ]
+        }
+      ]
+    },
+    {
+      "factionID": 1,
+      "factionName": "友爱部",
+      "chatGroups": [
+        {
+          "groupName": "开庭前提示",
+          "messages": [
+            "法官您好，本案涉及家庭困境，请关注动机与背景。",
+            "适当宽容能提升民心。"
+          ]
+        }
+      ]
+    }
+  ]
+}

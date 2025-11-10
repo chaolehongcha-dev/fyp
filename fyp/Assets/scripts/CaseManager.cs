@@ -9,7 +9,6 @@ using System.Linq; // 用于 FirstOrDefault
 [System.Serializable]
 public class CaseDataContainer
 {
-    // 字段名 "Cases" 必须与 JSON 文件中的顶层键名完全匹配
     public List<CaseData> Cases;
 }
 
@@ -23,11 +22,11 @@ public class CaseManager : MonoBehaviour
 
     [Header("JSON 数据源")]
     [Tooltip("将 CaseData.json 文件作为 TextAsset 拖入此处")]
-    public TextAsset caseDataJsonFile; // <-- 拖拽 JSON 文件到这里
+    public TextAsset caseDataJsonFile;
 
     [Header("案件设置")]
     public int totalCases = 3;
-    private int _currentCaseIndex = 0; // 当前案件在列表中的索引 (0, 1, 2)
+    private int _currentCaseIndex = 0;
 
     [Tooltip("存储所有案件的运行时数据")]
     public List<CaseData> allCasesData = new List<CaseData>();
@@ -38,7 +37,6 @@ public class CaseManager : MonoBehaviour
 
     public CaseData CurrentCaseData => allCasesData[_currentCaseIndex];
 
-    // 追踪当前的 Stage ID，用于数据驱动的分支跳转
     public string CurrentStageID { get; set; }
 
     private void Awake()
@@ -50,50 +48,16 @@ public class CaseManager : MonoBehaviour
         else
         {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
     }
 
     private void Start()
     {
-        // -------------------------------------------------------------------
-        // 核心修改：从拖拽的 TextAsset 加载数据
-        // -------------------------------------------------------------------
-        if (caseDataJsonFile != null)
-        {
-            try
-            {
-                // 使用辅助容器类 CaseDataContainer 来解析 List<CaseData>
-                CaseDataContainer container = JsonUtility.FromJson<CaseDataContainer>(caseDataJsonFile.text);
-
-                if (container != null && container.Cases != null)
-                {
-                    allCasesData = container.Cases;
-                    totalCases = allCasesData.Count;
-                    Debug.Log($"【JSON 加载成功】从 Inspector 加载了 {totalCases} 个案件。");
-                }
-                else
-                {
-                    Debug.LogError("【JSON 加载失败】JSON 格式错误或 CaseDataContainer 解析失败，请检查文件内容是否匹配 C# 结构。");
-                    allCasesData = new List<CaseData>();
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"【JSON 运行时错误】反序列化失败: {e.Message}");
-                allCasesData = new List<CaseData>();
-            }
-        }
-        else
-        {
-            Debug.LogError("【加载失败】请将 CaseData.json 文件拖入 Case Manager 的 Inspector 字段中。");
-            allCasesData = new List<CaseData>();
-        }
-        // -------------------------------------------------------------------
+        LoadCaseDataFromJSON();
 
         if (allCasesData.Count > 0)
         {
-            StartNewCase(0); // 从第一个案件开始
+            StartNewCase(0);
         }
         else
         {
@@ -102,7 +66,41 @@ public class CaseManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 开始一个新的案件，并刷新UI。
+    /// 从 JSON 加载案件列表
+    /// </summary>
+    private void LoadCaseDataFromJSON()
+    {
+        if (caseDataJsonFile == null)
+        {
+            Debug.LogError("【加载失败】请将 CaseData.json 文件拖入 Case Manager 的 Inspector 字段中。");
+            return;
+        }
+
+        try
+        {
+            CaseDataContainer container = JsonUtility.FromJson<CaseDataContainer>(caseDataJsonFile.text);
+
+            if (container != null && container.Cases != null)
+            {
+                allCasesData = container.Cases;
+                totalCases = allCasesData.Count;
+                Debug.Log($"【JSON 加载成功】从 Inspector 加载了 {totalCases} 个案件。");
+            }
+            else
+            {
+                Debug.LogError("【JSON 加载失败】JSON 格式错误或 CaseDataContainer 解析失败，请检查文件内容是否匹配 C# 结构。");
+                allCasesData = new List<CaseData>();
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"【JSON 运行时错误】反序列化失败: {e.Message}");
+            allCasesData = new List<CaseData>();
+        }
+    }
+
+    /// <summary>
+    /// 开始一个新的案件，并刷新 UI
     /// </summary>
     public void StartNewCase(int index)
     {
@@ -110,40 +108,47 @@ public class CaseManager : MonoBehaviour
 
         _currentCaseIndex = index;
 
-        // 1. 设置 UI
         if (adjudicationUI != null)
         {
             adjudicationUI.LoadCaseData(CurrentCaseData);
 
-            // 2. 设置当前 Stage ID (从案件数据中获取第一个 Stage ID)
             if (CurrentCaseData.decisionStages.Count > 0)
-            {
                 CurrentStageID = CurrentCaseData.decisionStages[0].stageID;
-            }
             else
-            {
-                // 如果没有 Stage，案件流程可能存在问题
                 CurrentStageID = "END_CASE";
-            }
         }
 
         Debug.Log($"【案件加载】案件 {CurrentCaseData.caseID} 已加载: {CurrentCaseData.caseTitle}");
     }
 
     /// <summary>
-    /// 触发故事线，并通知聊天系统发送派系信息。
+    /// 触发故事线，并通知聊天系统发送派系信息
     /// </summary>
-    public void TriggerStoryline(int factionIndex)
+    public void TriggerStoryline(int factionIndex, ChatGroup group = null)
     {
         if (chatUI != null)
         {
-            chatUI.SendNewMessage(factionIndex);
+            // 如果没有传入 ChatGroup，则生成默认消息
+            if (group == null)
+            {
+                group = new ChatGroup
+                {
+                    groupName = "派系消息",
+                    messages = new List<ChatMessage>
+                    {
+                        new ChatMessage { speakerName = "部长", content = $"派系 {factionIndex} 的默认消息" }
+                    }
+                };
+            }
+
+            chatUI.ReceiveNewMessage(factionIndex, group);
         }
+
         Debug.Log($"【故事线触发】派系 {factionIndex} 已触发。");
     }
 
     /// <summary>
-    /// 记录玩家在当前案件的判决选择。
+    /// 记录玩家在当前案件的判决选择
     /// </summary>
     public void RecordVerdictChoice(string choice)
     {
@@ -151,12 +156,10 @@ public class CaseManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 判定故事线是否完成，并进入下一个案件或结算结局。
+    /// 判定故事线是否完成，并进入下一个案件或结算结局
     /// </summary>
     public void FinalizeVerdict()
     {
-        // ... (此处省略复杂的判定和剧情生成逻辑)
-
         Debug.Log($"【案件结算】案件 {_currentCaseIndex + 1} 结算完成。");
 
         if (_currentCaseIndex < totalCases - 1)
@@ -166,7 +169,6 @@ public class CaseManager : MonoBehaviour
         else
         {
             Debug.Log("【最终结局】所有案件完成，生成最终结局！");
-            // GenerateFinalEnding();
         }
     }
 }
