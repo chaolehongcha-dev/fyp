@@ -1,24 +1,40 @@
+using System;
 using System.Collections.Generic;
 
-[System.Serializable]
+/// <summary>
+/// 表示单个案件的数据结构，对应 JSON 文件中的每个案件对象。
+/// </summary>
+[Serializable]
 public class CaseData
 {
-    public int caseID; // 案件编号 (1, 2, 3)
-    public string caseTitle; // 案件名称
+    public int caseID;
+    public string caseTitle;
+    public bool isStoryline1Triggered;
+    public bool isStoryline2Triggered;
+    public bool isStoryline3Triggered;
+    public bool hasEnteredTrial;
+    public List<string> playerVerdictChoices;
+    public List<DecisionStage> decisionStages;
+}
 
-    // 庭前阶段数据
-    public bool isStoryline1Triggered = false; // 派系1是否已开启
-    public bool isStoryline2Triggered = false; // 派系2是否已开启
-    public bool isStoryline3Triggered = false; // 派系3是否已开启
-    public bool hasEnteredTrial = false;       // 是否已进入开庭阶段
+/// <summary>
+/// 表示案件中的一个阶段（如 判决阶段、量刑阶段）。
+/// </summary>
+[Serializable]
+public class DecisionStage
+{
+    public string stageID;
+    public string stageTitle;
+    public List<ChoiceRule> choices;
+}
 
-    // 裁决结果数据
-    // 记录玩家在每个 Stage 的选择
-    public List<string> playerVerdictChoices = new List<string>();
-
-    // 最终判定结果
-    public bool isStoryline1Completed = false; // 派系1要求是否满足
-    public bool isStoryline2Completed = false; // 派系2要求是否满足
-    public bool isStoryline3Completed = false; // 派系3要求是否满足
-    public string caseEndingPlot;              // 案件最终达成的剧情线 (A/B/None)
+/// <summary>
+/// 表示在一个阶段中的一个可选项及其后续跳转。
+/// </summary>
+[Serializable]
+public class ChoiceRule
+{
+    public string choiceText;    // 显示在按钮上的文字
+    public string choiceResult;  // 逻辑结果（例如 "Guilty"）
+    public string nextStageID;   // 下一阶段ID（或 "END_CASE"）
 }

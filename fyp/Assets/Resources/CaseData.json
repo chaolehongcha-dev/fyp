@@ -1,0 +1,45 @@
+{
+  "Cases": [
+    {
+      "caseID": 1,
+      "caseTitle": "Ê³ÎïµÁÇÔ°¸",
+      "isStoryline1Triggered": false,
+      "hasEnteredTrial": false,
+      "playerVerdictChoices": [],
+      "decisionStages": [
+        {
+          "stageID": "Verdict",
+          "stageTitle": "ÅÐ¾ö½×¶Î",
+          "choices": [
+            {
+              "choiceText": "ÓÐ×ï",
+              "choiceResult": "Guilty",
+              "nextStageID": "Sentencing"
+            },
+            {
+              "choiceText": "ÎÞ×ï",
+              "choiceResult": "NotGuilty",
+              "nextStageID": "END_CASE"
+            }
+          ]
+        },
+        {
+          "stageID": "Sentencing",
+          "stageTitle": "Á¿ÐÌ½×¶Î",
+          "choices": [
+            {
+              "choiceText": "ËÀÐÌ",
+              "choiceResult": "Death",
+              "nextStageID": "END_CASE"
+            },
+            {
+              "choiceText": "Í½ÐÌ",
+              "choiceResult": "Prison",
+              "nextStageID": "END_CASE"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
