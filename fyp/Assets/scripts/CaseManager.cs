@@ -1,174 +1,142 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Linq; // 用于 FirstOrDefault
 
-/// <summary>
-/// 辅助容器类，用于封装 JSON 文件中的所有案件列表。
-/// 必须与 JSON 顶层结构 {"Cases": [...]} 匹配。
-/// </summary>
-[System.Serializable]
-public class CaseDataContainer
-{
-    public List<CaseData> Cases;
-}
-
-/// <summary>
-/// 管理所有案件的流程、数据和最终结局的生成。
-/// 采用 TextAsset 拖拽方式加载数据。
-/// </summary>
+// ####################################################################
+// ## 4.3. CASE MANAGER (案件管理器)
+// ####################################################################
 public class CaseManager : MonoBehaviour
 {
-    public static CaseManager Instance { get; private set; }
-
-    [Header("JSON 数据源")]
-    [Tooltip("将 CaseData.json 文件作为 TextAsset 拖入此处")]
-    public TextAsset caseDataJsonFile;
-
-    [Header("案件设置")]
-    public int totalCases = 3;
-    private int _currentCaseIndex = 0;
-
-    [Tooltip("存储所有案件的运行时数据")]
-    public List<CaseData> allCasesData = new List<CaseData>();
-
     [Header("UI 引用")]
-    public AdjudicationSystemUI adjudicationUI;
-    public ChatSystemUI chatUI;
+    public Text caseSummaryText; // (Stage 1) 拖入 'Case1Base' 下的 Text
+    public Transform factionButtonsParent; // (Stage 2) 拖入 'options' GameObject
+    public Transform decisionStagesParent; // **(Stage 3) 拖入 'DecisionStagesParent' GameObject**
 
-    public CaseData CurrentCaseData => allCasesData[_currentCaseIndex];
+    [Header("当前案件状态")]
+    public CaseData currentCase;
+    public JudgmentNode currentNode;
+    public List<int> playerChoiceIndices; // 记录 0/1 路径
 
-    public string CurrentStageID { get; set; }
+    // 管理器引用
+    private EndingManager endingManager;
+    private FactionManager factionManager; // 需要用来设置按钮
 
-    private void Awake()
+    // ## 修改: Start() -> Awake() ##
+    // Awake() 总是在 Start() 之前执行
+    // 这能确保所有引用在 GameManager.Start() 调用它们之前都已准备好
+    void Awake()
     {
-        if (Instance != null && Instance != this)
+        // 自动查找其他管理器
+        endingManager = FindObjectOfType<EndingManager>();
+        factionManager = FindObjectOfType<FactionManager>();
+
+        if (endingManager == null || factionManager == null)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
+            Debug.LogError("CaseManager: 未能找到 EndingManager 或 FactionManager!");
         }
     }
 
-    private void Start()
+    public void StartCase(CaseData caseData)
     {
-        LoadCaseDataFromJSON();
+        currentCase = caseData;
+        currentNode = currentCase.judgmentTreeRoot;
+        playerChoiceIndices = new List<int>(); // 确保每次都初始化
 
-        if (allCasesData.Count > 0)
-        {
-            StartNewCase(0);
-        }
-        else
-        {
-            Debug.LogError("未加载任何案件数据，游戏无法开始。");
-        }
-    }
+        // 1. 通知 EndingManager 开始记录
+        endingManager.StartNewCaseRecord(currentCase.caseID);
 
-    /// <summary>
-    /// 从 JSON 加载案件列表
-    /// </summary>
-    private void LoadCaseDataFromJSON()
-    {
-        if (caseDataJsonFile == null)
+        // 2. 设置 Stage 1 (Mask 1)
+        if (caseSummaryText != null)
         {
-            Debug.LogError("【加载失败】请将 CaseData.json 文件拖入 Case Manager 的 Inspector 字段中。");
+            caseSummaryText.text = currentCase.caseSummary;
+        }
+
+        // 3. 设置 Stage 2 (Mask 2) - 链接派系按钮
+        // 我们假设 blue, yellow, red 按钮已在 'options' (factionButtonsParent) 下
+        UI_FactionButton[] factionButtons = factionButtonsParent.GetComponentsInChildren<UI_FactionButton>(true); // 'true' 包含未激活的
+        for (int i = 0; i < factionButtons.Length; i++)
+        {
+            if (i < currentCase.factionStorylines.Count)
+            {
+                // 将 FactionStoryline 数据分配给按钮
+                factionButtons[i].Setup(currentCase.factionStorylines[i], factionManager);
+                factionButtons[i].gameObject.SetActive(true);
+                factionButtons[i].GetComponent<Button>().interactable = true; // 确保新案件开始时按钮可点
+            }
+            else
+            {
+                factionButtons[i].gameObject.SetActive(false); // 如果案件的故事线少于3个
+            }
+        }
+
+        // 4. 设置 Stage 3 (Mask 3) - 激活第一个判案组
+        if (decisionStagesParent == null)
+        {
+            Debug.LogError("CaseManager: decisionStagesParent 未链接!");
             return;
         }
 
-        try
+        // 停用所有决策组
+        foreach (Transform child in decisionStagesParent)
         {
-            CaseDataContainer container = JsonUtility.FromJson<CaseDataContainer>(caseDataJsonFile.text);
-
-            if (container != null && container.Cases != null)
-            {
-                allCasesData = container.Cases;
-                totalCases = allCasesData.Count;
-                Debug.Log($"【JSON 加载成功】从 Inspector 加载了 {totalCases} 个案件。");
-            }
-            else
-            {
-                Debug.LogError("【JSON 加载失败】JSON 格式错误或 CaseDataContainer 解析失败，请检查文件内容是否匹配 C# 结构。");
-                allCasesData = new List<CaseData>();
-            }
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"【JSON 运行时错误】反序列化失败: {e.Message}");
-            allCasesData = new List<CaseData>();
-        }
-    }
-
-    /// <summary>
-    /// 开始一个新的案件，并刷新 UI
-    /// </summary>
-    public void StartNewCase(int index)
-    {
-        if (index >= allCasesData.Count) return;
-
-        _currentCaseIndex = index;
-
-        if (adjudicationUI != null)
-        {
-            adjudicationUI.LoadCaseData(CurrentCaseData);
-
-            if (CurrentCaseData.decisionStages.Count > 0)
-                CurrentStageID = CurrentCaseData.decisionStages[0].stageID;
-            else
-                CurrentStageID = "END_CASE";
+            child.gameObject.SetActive(false);
         }
 
-        Debug.Log($"【案件加载】案件 {CurrentCaseData.caseID} 已加载: {CurrentCaseData.caseTitle}");
-    }
-
-    /// <summary>
-    /// 触发故事线，并通知聊天系统发送派系信息
-    /// </summary>
-    public void TriggerStoryline(int factionIndex, ChatGroup group = null)
-    {
-        if (chatUI != null)
+        // 激活第一个
+        // 我们使用 'stageDescription' (e.g., "panjue") 作为名称来查找
+        Transform rootStage = decisionStagesParent.Find(currentNode.stageDescription);
+        if (rootStage != null)
         {
-            // 如果没有传入 ChatGroup，则生成默认消息
-            if (group == null)
-            {
-                group = new ChatGroup
-                {
-                    groupName = "派系消息",
-                    messages = new List<ChatMessage>
-                    {
-                        new ChatMessage { speakerName = "部长", content = $"派系 {factionIndex} 的默认消息" }
-                    }
-                };
-            }
-
-            chatUI.ReceiveNewMessage(factionIndex, group);
-        }
-
-        Debug.Log($"【故事线触发】派系 {factionIndex} 已触发。");
-    }
-
-    /// <summary>
-    /// 记录玩家在当前案件的判决选择
-    /// </summary>
-    public void RecordVerdictChoice(string choice)
-    {
-        CurrentCaseData.playerVerdictChoices.Add(choice);
-    }
-
-    /// <summary>
-    /// 判定故事线是否完成，并进入下一个案件或结算结局
-    /// </summary>
-    public void FinalizeVerdict()
-    {
-        Debug.Log($"【案件结算】案件 {_currentCaseIndex + 1} 结算完成。");
-
-        if (_currentCaseIndex < totalCases - 1)
-        {
-            StartNewCase(_currentCaseIndex + 1);
+            rootStage.gameObject.SetActive(true);
         }
         else
         {
-            Debug.Log("【最终结局】所有案件完成，生成最终结局！");
+            Debug.LogError($"CaseManager: 在 {decisionStagesParent.name} 下找不到名为 {currentNode.stageDescription} 的子物体!");
+        }
+    }
+
+    // 由 UI_JudgmentButton 调用
+    public void SelectChoice(JudgmentChoice choice, int choiceIndex)
+    {
+        if (GameManager.Instance.CurrentState != GameState.JudgmentPhase) return;
+
+        // 1. 记录路径和民心
+        playerChoiceIndices.Add(choiceIndex);
+        endingManager.RecordPublicOpinionChange(choice.publicOpinionChange);
+
+        // 2. 停用当前 UI 组
+        Transform currentStage = decisionStagesParent.Find(currentNode.stageDescription);
+        if (currentStage != null)
+        {
+            currentStage.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning($"CaseManager: 找不到要停用的 {currentNode.stageDescription}");
+        }
+
+        // 3. 移动到下一个节点
+        currentNode = choice.nextNode;
+
+        // 4. 检查是否审判结束
+        if (currentNode == null)
+        {
+            // 审判结束
+            endingManager.RecordJudgment(playerChoiceIndices); // 记录最终路径
+            GameManager.Instance.EndCase(); // 通知 GameManager
+        }
+        else
+        {
+            // 激活下一个 UI 组
+            Transform nextStage = decisionStagesParent.Find(currentNode.stageDescription);
+            if (nextStage != null)
+            {
+                nextStage.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError($"CaseManager: 在 {decisionStagesParent.name} 下找不到名为 {currentNode.stageDescription} 的子物体!");
+            }
         }
     }
 }
