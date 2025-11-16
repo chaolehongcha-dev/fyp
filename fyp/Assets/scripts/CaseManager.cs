@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class CaseManager : MonoBehaviour
 {
     [Header("UI 引用")]
-    public Text caseSummaryText; // (Stage 1) 拖入 'Case1Base' 下的 Text
     public Transform factionButtonsParent; // (Stage 2) 拖入 'options' GameObject
     public Transform decisionStagesParent; // **(Stage 3) 拖入 'DecisionStagesParent' GameObject**
 
@@ -21,9 +20,6 @@ public class CaseManager : MonoBehaviour
     private EndingManager endingManager;
     private FactionManager factionManager; // 需要用来设置按钮
 
-    // ## 修改: Start() -> Awake() ##
-    // Awake() 总是在 Start() 之前执行
-    // 这能确保所有引用在 GameManager.Start() 调用它们之前都已准备好
     void Awake()
     {
         // 自动查找其他管理器
@@ -46,26 +42,21 @@ public class CaseManager : MonoBehaviour
         endingManager.StartNewCaseRecord(currentCase.caseID);
 
         // 2. 设置 Stage 1 (Mask 1)
-        if (caseSummaryText != null)
-        {
-            caseSummaryText.text = currentCase.caseSummary;
-        }
+        // (无 - 'caseSummary' 逻辑已移除)
 
         // 3. 设置 Stage 2 (Mask 2) - 链接派系按钮
-        // 我们假设 blue, yellow, red 按钮已在 'options' (factionButtonsParent) 下
-        UI_FactionButton[] factionButtons = factionButtonsParent.GetComponentsInChildren<UI_FactionButton>(true); // 'true' 包含未激活的
+        UI_FactionButton[] factionButtons = factionButtonsParent.GetComponentsInChildren<UI_FactionButton>(true);
         for (int i = 0; i < factionButtons.Length; i++)
         {
             if (i < currentCase.factionStorylines.Count)
             {
-                // 将 FactionStoryline 数据分配给按钮
                 factionButtons[i].Setup(currentCase.factionStorylines[i], factionManager);
                 factionButtons[i].gameObject.SetActive(true);
-                factionButtons[i].GetComponent<Button>().interactable = true; // 确保新案件开始时按钮可点
+                factionButtons[i].GetComponent<Button>().interactable = true;
             }
             else
             {
-                factionButtons[i].gameObject.SetActive(false); // 如果案件的故事线少于3个
+                factionButtons[i].gameObject.SetActive(false);
             }
         }
 
@@ -83,7 +74,6 @@ public class CaseManager : MonoBehaviour
         }
 
         // 激活第一个
-        // 我们使用 'stageDescription' (e.g., "panjue") 作为名称来查找
         Transform rootStage = decisionStagesParent.Find(currentNode.stageDescription);
         if (rootStage != null)
         {

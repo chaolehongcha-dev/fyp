@@ -12,13 +12,19 @@ public class FactionManager : MonoBehaviour
     private ResourceManager resourceManager;
     private EndingManager endingManager;
     private CaseManager caseManager;
+    private ChatSystem chatSystem; // 聊天系统
 
-    // ## 修改: Start() -> Awake() ##
     void Awake()
     {
         resourceManager = FindObjectOfType<ResourceManager>();
         endingManager = FindObjectOfType<EndingManager>();
         caseManager = FindObjectOfType<CaseManager>();
+        chatSystem = FindObjectOfType<ChatSystem>();
+
+        if (chatSystem == null)
+        {
+            Debug.LogError("FactionManager: 找不到 ChatSystem!");
+        }
 
         ClearActiveStorylines();
     }
@@ -33,23 +39,24 @@ public class FactionManager : MonoBehaviour
     {
         if (GameManager.Instance.CurrentState != GameState.StorylinePhase) return;
 
-        // 1. 尝试花费能量
-        if (resourceManager.SpendEnergy(1)) // 能量花费固定为 1
+        if (resourceManager.SpendEnergy(1))
         {
-            // 2. 购买成功
             activeStorylines.Add(storyline);
 
-            // 3. (通知聊天系统显示 storyline.chatMessages)
+            // -------------------------------------------------
+            // ## 通知聊天系统 ##
+            // -------------------------------------------------
             Debug.Log($"购买了 {storyline.faction} 的故事线。");
-            // 在这里通知聊天系统
-            // ChatSystem.Instance.ShowMessages(storyline.chatMessages);
+            if (chatSystem != null)
+            {
+                chatSystem.ShowFactionMessages(storyline.chatMessages);
+            }
+            // -------------------------------------------------
 
-            // 4. 通知 EndingManager 记录
             endingManager.RecordStorylinePurchase(storyline.faction);
         }
         else
         {
-            // 能量不足
             Debug.Log("能量不足，无法购买故事线。");
         }
     }
@@ -69,7 +76,7 @@ public class FactionManager : MonoBehaviour
             bool didComply = true;
             if (playerPath.Count < requiredPath.Count)
             {
-                didComply = false; // 玩家的步骤不够
+                didComply = false;
             }
             else
             {
@@ -83,14 +90,24 @@ public class FactionManager : MonoBehaviour
                 }
             }
 
-            // (发送评价到聊天系统)
-            string evalMessage = didComply ? $"你满足了 {faction} 的要求。" : $"你违背了 {faction} 的意愿。";
-            Debug.Log(evalMessage);
+            // -------------------------------------------------
+            // ## 通知聊天系统 ##
+            // -------------------------------------------------
+            Debug.Log(didComply ? $"你满足了 {faction} 的要求。" : $"你违背了 {faction} 的意愿。");
 
-            // TODO: (在这里通知你的聊天系统UI显示 *评价* 消息)
-            // ChatSystem.Instance.ShowEvaluationMessage(faction, didComply);
+            if (chatSystem != null)
+            {
+                if (didComply)
+                {
+                    chatSystem.ShowEvaluationMessages(storyline.evaluationSuccessMessages);
+                }
+                else
+                {
+                    chatSystem.ShowEvaluationMessages(storyline.evaluationFailureMessages);
+                }
+            }
+            // -------------------------------------------------
 
-            // 记录结果
             endingManager.RecordFactionInfluence(faction, didComply);
         }
     }

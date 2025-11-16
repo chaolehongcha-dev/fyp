@@ -6,8 +6,8 @@ using System.Collections.Generic;
 // ####################################################################
 
 public enum FactionType { Truth, Love, Peace } // 真理派, 友爱部, 和平部
-
 public enum GameState { CaseBriefing, StorylinePhase, JudgmentPhase, CaseWrapUp, GameEnd }
+// ChatSpeaker 枚举在 ChatSystem.cs 中定义
 
 // ####################################################################
 // ## 2. SCRIPTABLE OBJECT DEFINITIONS (ScriptableObject 定义)
@@ -19,8 +19,9 @@ public class CaseData : ScriptableObject
 {
     [Header("案件基础信息")]
     public string caseID; // e.g., "Case_01_Theft"
-    [TextArea(5, 10)]
-    public string caseSummary; // 在 Mask 1 (Stage1) 显示
+
+    [Header("初始简报/教程消息")]
+    public List<ChatMessage> briefingMessages; // 用于 Stage 1
 
     [Header("判案流程 (Mask 3)")]
     public JudgmentNode judgmentTreeRoot; // 判案分支树的根节点
@@ -40,6 +41,10 @@ public class FactionStoryline : ScriptableObject
 
     [Header("派系要求 (0=左, 1=右)")]
     public FactionRequirement requirement;
+
+    [Header("派系评价 (判案后)")]
+    public List<ChatMessage> evaluationSuccessMessages;
+    public List<ChatMessage> evaluationFailureMessages;
 }
 
 // ####################################################################
@@ -50,37 +55,24 @@ public class FactionStoryline : ScriptableObject
 [System.Serializable]
 public class JudgmentNode
 {
-    public string stageDescription; // 阶段描述 (e.g., "panjue")
-                                    // **重要: 必须与 DecisionStagesParent 下的子物体名称一致**
-
-    // ## 已删除 ##
-    // [Header("链接到场景中的UI组")]
-    // public GameObject stageUIGroup; // <-- 这个字段已被移除，因为它无法工作
-
-    [Header("此阶段的选项 (左=0, 右=1)")]
-    public List<JudgmentChoice> choices; // 必须有两个选项
+    public string stageDescription;
+    public List<JudgmentChoice> choices;
 }
 
 // 3.3. 判案选项 (用于 JudgmentNode)
 [System.Serializable]
 public class JudgmentChoice
 {
-    public string choiceID; // 调试用 ID
-    public string choiceText; // *注意: 这个现在由你场景中的按钮文本决定*
-
-    [Header("点击后跳转的下一个节点")]
-    public JudgmentNode nextNode; // 如果为 null，则审判结束
-
-    [Header("结局统计")]
-    public int publicOpinionChange; // 影响民心 (e.g., -1, 0, 1)
+    public string choiceID;
+    public string choiceText;
+    public JudgmentNode nextNode;
+    public int publicOpinionChange;
 }
 
 // 3.5. 派系要求 (用于 FactionStoryline)
 [System.Serializable]
 public class FactionRequirement
 {
-    // e.g., [0] = 要求第一个选左
-    // e.g., [1, 0] = 要求第一个选右, 第二个选左
     public List<int> requiredChoiceIndices;
 }
 
@@ -88,7 +80,8 @@ public class FactionRequirement
 [System.Serializable]
 public class ChatMessage
 {
-    public FactionType sender; // 谁发送的
+    public ChatSpeaker sender; // (在 ChatSystem.cs 中定义)
+
     [TextArea(3, 5)]
     public string messageContent;
 }
@@ -96,9 +89,8 @@ public class ChatMessage
 
 // ####################################################################
 // ## 4. ENDING DATA STRUCTURES (结局数据结构)
+// ## (修复: 这些是 EndingManager.cs 需要的类)
 // ####################################################################
-
-// (来自 4.6. 用于最后生成 JSON)
 
 [System.Serializable]
 public class GameEndingData

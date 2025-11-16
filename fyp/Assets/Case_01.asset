@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Case_01
   m_EditorClassIdentifier: 
   caseID: Case_01
-  caseSummary: 
+  briefingMessages:
+  - sender: 0
+    messageContent: hi
   judgmentTreeRoot:
     stageDescription: panjue
     choices:

@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Case01_Truth 1
   m_EditorClassIdentifier: Assembly-CSharp::FactionStoryline
   faction: 1
-  chatMessages: []
+  chatMessages:
+  - sender: 2
+    messageContent: 111
+  - sender: 2
+    messageContent: 222
   requirement:
     requiredChoiceIndices: 
+  evaluationSuccessMessages: []
+  evaluationFailureMessages: []
