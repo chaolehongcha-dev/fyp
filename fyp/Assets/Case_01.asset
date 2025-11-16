@@ -15,7 +15,11 @@ MonoBehaviour:
   caseID: Case_01
   briefingMessages:
   - sender: 0
-    messageContent: hi
+    messageContent: "\u4F46\u662F\u5982\u6B4C\u4F46\u662F\u5982\u6B4C\u4F46\u662F\u5982\u6B4C\u4F46\u662F\u5982\u6B4C\u4F46\u662F\u5982\u6B4C"
+  - sender: 0
+    messageContent: "\u4F46\u662F\u5982\u6B4C\u4F46\u662F\u5982\u6B4C\u4F46\u662F\u5982\u6B4C"
+  - sender: 0
+    messageContent: "\u4F46\u662F\u5982\u6B4C"
   judgmentTreeRoot:
     stageDescription: panjue
     choices:

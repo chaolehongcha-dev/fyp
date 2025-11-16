@@ -17,7 +17,7 @@ MonoBehaviour:
   - sender: 2
     messageContent: 111
   - sender: 2
-    messageContent: 222
+    messageContent: 2222222222222222222222222222222222222
   requirement:
     requiredChoiceIndices: 
   evaluationSuccessMessages: []
