@@ -16,3 +16,5 @@ MonoBehaviour:
   chatMessages: []
   requirement:
     requiredChoiceIndices: 
+  evaluationSuccessMessages: []
+  evaluationFailureMessages: []
