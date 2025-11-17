@@ -8,6 +8,7 @@ using System.Linq; // 用于 .Last()
 public class EndingManager : MonoBehaviour
 {
     private int totalPublicOpinion;
+    // ## 修改: 字典现在包含所有4个派系 ##
     private Dictionary<FactionType, int> factionInfluence;
     private GameEndingData finalData;
 
@@ -16,9 +17,12 @@ public class EndingManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // 必须跨场景保留
 
         totalPublicOpinion = 0;
+
+        // ## 修改: 初始化所有4个派系的影响力 ##
         factionInfluence = new Dictionary<FactionType, int>
         {
             { FactionType.Truth, 0 },
+            { FactionType.Order, 0 }, // 新增
             { FactionType.Love, 0 },
             { FactionType.Peace, 0 }
         };
@@ -34,6 +38,18 @@ public class EndingManager : MonoBehaviour
     public void RecordPublicOpinionChange(int change)
     {
         totalPublicOpinion += change;
+    }
+
+    // ## 新增: 供 CaseManager 调用的新方法 ##
+    /// <summary>
+    /// 记录由判案选择（JudgmentChoice）直接引起的权力变化
+    /// </summary>
+    public void RecordFactionPowerChange(int truth, int order, int love, int peace)
+    {
+        factionInfluence[FactionType.Truth] += truth;
+        factionInfluence[FactionType.Order] += order;
+        factionInfluence[FactionType.Love] += love;
+        factionInfluence[FactionType.Peace] += peace;
     }
 
     public void RecordStorylinePurchase(FactionType faction)
@@ -53,9 +69,10 @@ public class EndingManager : MonoBehaviour
         }
     }
 
-    public void RecordFactionInfluence(FactionType faction, bool didComply)
+    // (此方法现在是“依从奖励”，在基础权力变化上 *额外* 增加)
+    public void RecordFactionInfluence(FactionType faction, bool didComply) // ## 修复: didComMply -> didComply ##
     {
-        int influenceChange = didComply ? 1 : -1;
+        int influenceChange = didComply ? 1 : -1; // ## 修复: didComMply -> didComply ##
         factionInfluence[faction] += influenceChange;
     }
 

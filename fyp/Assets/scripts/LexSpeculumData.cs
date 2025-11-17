@@ -5,7 +5,8 @@ using System.Collections.Generic;
 // ## 1. ENUMS (枚举)
 // ####################################################################
 
-public enum FactionType { Truth, Love, Peace } // 真理派, 友爱部, 和平部
+// ## 修复: FactionType 现在包含所有4个派系 ##
+public enum FactionType { Truth, Order, Love, Peace } // 真理部, 秩序部, 友爱部, 和平部
 public enum GameState { CaseBriefing, StorylinePhase, JudgmentPhase, CaseWrapUp, GameEnd }
 // ChatSpeaker 枚举在 ChatSystem.cs 中定义
 
@@ -34,7 +35,8 @@ public class CaseData : ScriptableObject
 [CreateAssetMenu(fileName = "Case01_Truth", menuName = "Lex Speculum/Faction Storyline")]
 public class FactionStoryline : ScriptableObject
 {
-    public FactionType faction; // 派系
+    // ## 修改: 现在 Order, Love, Peace 是可购买的 ##
+    public FactionType faction; // 派系 (应该是 Order, Love 或 Peace)
 
     [Header("购买后在聊天窗口显示")]
     public List<ChatMessage> chatMessages;
@@ -66,7 +68,14 @@ public class JudgmentChoice
     public string choiceID;
     public string choiceText;
     public JudgmentNode nextNode;
-    public int publicOpinionChange;
+    public int publicOpinionChange; // 民心 (旧)
+
+    // ## 新增: 每个选项对四大派系的即时权力影响 ##
+    [Header("派系权力变化")]
+    public int truthInfluenceChange;
+    public int orderInfluenceChange;
+    public int loveInfluenceChange;
+    public int peaceInfluenceChange;
 }
 
 // 3.5. 派系要求 (用于 FactionStoryline)
@@ -103,7 +112,8 @@ public class GameEndingData
 [System.Serializable]
 public class FactionInfluenceEntry
 {
-    public string faction; // e.g., "Truth", "Love", "Peace"
+    // ## 修改: 更新注释 ##
+    public string faction; // e.g., "Truth", "Order", "Love", "Peace"
     public int influenceScore; // e.g., 2, -1, 0
 }
 

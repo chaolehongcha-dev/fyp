@@ -91,19 +91,20 @@ public class FactionManager : MonoBehaviour
             }
 
             // -------------------------------------------------
-            // ## 通知聊天系统 ##
+            // ## 修改: 通知聊天系统 ##
             // -------------------------------------------------
             Debug.Log(didComply ? $"你满足了 {faction} 的要求。" : $"你违背了 {faction} 的意愿。");
 
             if (chatSystem != null)
             {
+                // ## 修改: 现在我们传入 FactionType 和 消息列表 ##
                 if (didComply)
                 {
-                    chatSystem.ShowEvaluationMessages(storyline.evaluationSuccessMessages);
+                    chatSystem.ShowEvaluationMessages(faction, storyline.evaluationSuccessMessages);
                 }
                 else
                 {
-                    chatSystem.ShowEvaluationMessages(storyline.evaluationFailureMessages);
+                    chatSystem.ShowEvaluationMessages(faction, storyline.evaluationFailureMessages);
                 }
             }
             // -------------------------------------------------

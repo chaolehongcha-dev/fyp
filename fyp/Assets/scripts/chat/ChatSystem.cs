@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-// 新增的枚举，用于聊天系统内部识别
+// 枚举，用于聊天系统内部识别
 public enum ChatSpeaker
 {
     Truth, // 真理部部长 (Btn_Truth)
@@ -28,6 +28,7 @@ public class ChatSystem : MonoBehaviour
     public GameObject hintYellow;
     public GameObject hintRed;
 
+    // ## 修复: 恢复所有丢失的类级别变量 ##
     [Header("聊天数据")]
     private Dictionary<ChatSpeaker, List<string>> messageHistory;
     private ChatSpeaker currentSpeaker;
@@ -173,12 +174,16 @@ public class ChatSystem : MonoBehaviour
         }
     }
 
+    // ## 修复: 此方法现在在正确的位置 ##
     // 3. (供 FactionManager 调用) 显示评价消息
-    public void ShowEvaluationMessages(List<ChatMessage> messages)
+    public void ShowEvaluationMessages(FactionType faction, List<ChatMessage> messages)
     {
+        // ## 修改: 评价消息现在需要知道发送者是谁 ##
+        ChatSpeaker speaker = ConvertFactionToSpeaker(faction);
         foreach (var msg in messages)
         {
-            AddMessage(msg.sender, msg.messageContent);
+            // 覆盖 sender，确保评价来自正确的派系
+            AddMessage(speaker, msg.messageContent);
         }
     }
 
@@ -240,10 +245,23 @@ public class ChatSystem : MonoBehaviour
         switch (speaker)
         {
             case ChatSpeaker.Truth: return "真理部部长";
-            case ChatSpeaker.Order: return "秩序部 (Blue)";
-            case ChatSpeaker.Love: return "友爱部 (Yellow)";
-            case ChatSpeaker.Peace: return "和平部 (Red)";
+            case ChatSpeaker.Order: return "秩序部 (精英)"; // 秩序
+            case ChatSpeaker.Love: return "友爱部 (民众)"; // 友爱
+            case ChatSpeaker.Peace: return "和平部 (军队)"; // 和平
             default: return "???";
+        }
+    }
+
+    // ## 修复: 此辅助方法现在在正确的位置 ##
+    private ChatSpeaker ConvertFactionToSpeaker(FactionType faction)
+    {
+        switch (faction)
+        {
+            case FactionType.Truth: return ChatSpeaker.Truth;
+            case FactionType.Order: return ChatSpeaker.Order;
+            case FactionType.Love: return ChatSpeaker.Love;
+            case FactionType.Peace: return ChatSpeaker.Peace;
+            default: return ChatSpeaker.Truth; // 默认
         }
     }
 }

@@ -94,6 +94,14 @@ public class CaseManager : MonoBehaviour
         playerChoiceIndices.Add(choiceIndex);
         endingManager.RecordPublicOpinionChange(choice.publicOpinionChange);
 
+        // ## 新增: 记录本次点击对所有派系的权力影响 ##
+        endingManager.RecordFactionPowerChange(
+            choice.truthInfluenceChange,
+            choice.orderInfluenceChange,
+            choice.loveInfluenceChange,
+            choice.peaceInfluenceChange
+        );
+
         // 2. 停用当前 UI 组
         Transform currentStage = decisionStagesParent.Find(currentNode.stageDescription);
         if (currentStage != null)
