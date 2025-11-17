@@ -90,17 +90,17 @@ public class CaseManager : MonoBehaviour
     {
         if (GameManager.Instance.CurrentState != GameState.JudgmentPhase) return;
 
-        // 1. 记录路径和民心
+        // 1. 记录路径和民心 (这是正确的)
         playerChoiceIndices.Add(choiceIndex);
         endingManager.RecordPublicOpinionChange(choice.publicOpinionChange);
 
-        // ## 新增: 记录本次点击对所有派系的权力影响 ##
-        endingManager.RecordFactionPowerChange(
-            choice.truthInfluenceChange,
-            choice.orderInfluenceChange,
-            choice.loveInfluenceChange,
-            choice.peaceInfluenceChange
-        );
+        // ## 移除: 删除这个错误的调用 ##
+        // endingManager.RecordFactionPowerChange(
+        //     choice.truthInfluenceChange,
+        //     choice.orderInfluenceChange,
+        //     choice.loveInfluenceChange,
+        //     choice.peaceInfluenceChange
+        // );
 
         // 2. 停用当前 UI 组
         Transform currentStage = decisionStagesParent.Find(currentNode.stageDescription);

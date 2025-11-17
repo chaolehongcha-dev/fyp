@@ -40,17 +40,17 @@ public class EndingManager : MonoBehaviour
         totalPublicOpinion += change;
     }
 
-    // ## 新增: 供 CaseManager 调用的新方法 ##
-    /// <summary>
-    /// 记录由判案选择（JudgmentChoice）直接引起的权力变化
-    /// </summary>
-    public void RecordFactionPowerChange(int truth, int order, int love, int peace)
-    {
-        factionInfluence[FactionType.Truth] += truth;
-        factionInfluence[FactionType.Order] += order;
-        factionInfluence[FactionType.Love] += love;
-        factionInfluence[FactionType.Peace] += peace;
-    }
+    // ## 移除: 删除这个未使用的方法 ##
+    // /// <summary>
+    // /// 记录由判案选择（JudgmentChoice）直接引起的权力变化
+    // /// </summary>
+    // public void RecordFactionPowerChange(int truth, int order, int love, int peace)
+    // {
+    //     factionInfluence[FactionType.Truth] += truth;
+    //     factionInfluence[FactionType.Order] += order;
+    //     factionInfluence[FactionType.Love] += love;
+    //     factionInfluence[FactionType.Peace] += peace;
+    // }
 
     public void RecordStorylinePurchase(FactionType faction)
     {

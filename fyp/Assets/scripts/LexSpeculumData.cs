@@ -68,14 +68,14 @@ public class JudgmentChoice
     public string choiceID;
     public string choiceText;
     public JudgmentNode nextNode;
-    public int publicOpinionChange; // 民心 (旧)
+    public int publicOpinionChange; // 民心 (这个是正确的，保留)
 
-    // ## 新增: 每个选项对四大派系的即时权力影响 ##
-    [Header("派系权力变化")]
-    public int truthInfluenceChange;
-    public int orderInfluenceChange;
-    public int loveInfluenceChange;
-    public int peaceInfluenceChange;
+    // ## 移除: 删除以下所有错误的字段 ##
+    // [Header("派系权力变化")]
+    // public int truthInfluenceChange;
+    // public int orderInfluenceChange;
+    // public int loveInfluenceChange;
+    // public int peaceInfluenceChange;
 }
 
 // 3.5. 派系要求 (用于 FactionStoryline)
