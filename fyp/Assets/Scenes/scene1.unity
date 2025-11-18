@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 1
 --- !u!114 &5261708
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 0
 --- !u!114 &39638310
@@ -976,7 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 0
 --- !u!1 &67554228
@@ -1785,7 +1785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: fangshi
   choiceIndex: 0
 --- !u!33 &84881112
@@ -2393,7 +2393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 1
 --- !u!114 &196761366
@@ -2868,7 +2868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 1
 --- !u!114 &272282075
@@ -3913,8 +3913,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1701840584}
   - {fileID: 390104538}
+  - {fileID: 1701840584}
   - {fileID: 79435158}
   m_Father: {fileID: 1436935848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4333,8 +4333,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406853830}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4347,7 +4347,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &438279845
@@ -4833,7 +4833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 0
 --- !u!114 &506635149
@@ -5173,7 +5173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 1
 --- !u!114 &523536561
@@ -7307,7 +7307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 0
 --- !u!114 &842333342
@@ -8221,7 +8221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: fangshi
   choiceIndex: 1
 --- !u!114 &916889642
@@ -8920,7 +8920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 1
 --- !u!1 &991613141
@@ -8975,7 +8975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 0
 --- !u!114 &991613144
@@ -9401,7 +9401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: fangshi
   choiceIndex: 0
 --- !u!114 &1037470496
@@ -9595,7 +9595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: fangshi
   choiceIndex: 0
 --- !u!114 &1040936793
@@ -10857,7 +10857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 1
 --- !u!114 &1194133618
@@ -11431,7 +11431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 0
 --- !u!1 &1222957505
@@ -11639,8 +11639,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227792876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11653,7 +11653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1236028984
@@ -12172,7 +12172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 1
 --- !u!114 &1306792012
@@ -12366,7 +12366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: panjue
   choiceIndex: 0
 --- !u!114 &1321219661
@@ -14724,7 +14724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 1
 --- !u!114 &1599690889
@@ -14990,7 +14990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 0
 --- !u!114 &1620006236
@@ -16758,8 +16758,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854409684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16772,7 +16772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1871762689
@@ -17199,7 +17199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 0
 --- !u!114 &1893433809
@@ -17607,7 +17607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: fangshi
   choiceIndex: 1
 --- !u!1 &1934271072
@@ -17743,8 +17743,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963773563}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17757,7 +17757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1995234934
@@ -17951,7 +17951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: liangxing
   choiceIndex: 1
 --- !u!1 &2047438030
@@ -18534,7 +18534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  activeCase: {fileID: 0}
   targetNodeID: fangshi
   choiceIndex: 1
 --- !u!114 &2110804638

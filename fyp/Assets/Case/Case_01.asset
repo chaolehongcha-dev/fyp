@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9de6deb9140e74882d19d25bd37488, type: 3}
+  m_Name: Case_01
+  m_EditorClassIdentifier: 
+  caseID: 
+  briefingMessages:
+  - sender: 0
+    messageContent: "\u6B22\u8FCE\u6765\u5230\u771F\u7406\u90E8\u3002\r"
+  - sender: 0
+    messageContent: "\u80FD\u6E90\u5854\u662F\u4EBA\u7C7B\u6700\u540E\u7684\u58C1\u5792\u3002\r\n\r"
+  - sender: 0
+    messageContent: "\u800C\u6211\u4EEC\u7684\u5DE5\u4F5C\uFF0C\u5C31\u662F\u786E\u4FDD\u8FD9\u5EA7\u58C1\u5792\u4E0D\u4F1A\u4ECE\u5185\u90E8\u5D29\u6E83\u3002\r\n"
+  - sender: 0
+    messageContent: "\u4F60\u9762\u524D\u662F\u5224\u6848\u7CFB\u7EDF\u548C\u804A\u5929\u7CFB\u7EDF\u3002\r\n"
+  - sender: 0
+    messageContent: "\u5224\u6848\u7CFB\u7EDF\u662F\u4F60\u7684\u5DE5\u5177\u3002\r\n"
+  - sender: 0
+    messageContent: "\u800C\u804A\u5929\u7CFB\u7EDF\u662F\u4F60\u7684\u201C\u6218\u573A\u201D\u3002\r\n"
+  - sender: 0
+    messageContent: "\u4F60\u53EF\u4EE5\u82B1\u8D39\u5B9D\u8D35\u7684\u80FD\u91CF\uFF0C\u5728\u5224\u6848\u7CFB\u7EDF\u89E3\u9501\u79E9\u5E8F\u90E8\u3001\u53CB\u7231\u90E8\u6216\u548C\u5E73\u90E8\u7684'\u89C2\u70B9'\u3002 "
+  - sender: 0
+    messageContent: "\u4ED6\u4EEC\u4F1A\u7ACB\u523B\u5728\u804A\u5929\u7CFB\u7EDF\u91CC\u8054\u7CFB\u4F60\u3002\r\n"
+  - sender: 0
+    messageContent: "\u4ED6\u4EEC\u4F1A\u660E\u786E\u544A\u8BC9\u4F60\u5E0C\u671B\u7684\u5224\u51B3\u7ED3\u679C\u3002 "
+  - sender: 0
+    messageContent: "\u4F46\u662F\u542C\u53D6\u89C2\u70B9\u4E0D\u4EE3\u8868\u652F\u6301\u3002\r\n"
+  - sender: 0
+    messageContent: "\u5982\u679C\u4F60\u542C\u4ECE\u4E86\u4ED6\u4EEC\u7684\u8981\u6C42\uFF0C\u4ED6\u4EEC\u7684\u5F71\u54CD\u529B\u4F1A\u589E\u5F3A\u3002 "
+  - sender: 0
+    messageContent: "\u4F46\u5982\u679C\u4F60\u53CD\u5176\u9053\u800C\u884C\u4E4B\uFF0C\u4ED6\u4EEC\u7684\u5F71\u54CD\u529B\u5C06\u53D7\u5230\u524A\u5F31\u3002\r\n"
+  - sender: 0
+    messageContent: "\u73B0\u5728\uFF0C\u5F00\u59CB\u4F60\u7684\u7B2C\u4E00\u4E2A\u6848\u5B50\u5427\u3002\r\n"
+  judgmentTreeRoot:
+    stageDescription: dengdaipanjue
+    choices:
+    - choiceID: 1
+      choiceText: youzui
+      nextNode:
+        stageDescription: dongjidingxing
+        choices: []
+      publicOpinionChange: 0
+    - choiceID: 2
+      choiceText: wuzui
+      nextNode:
+        stageDescription: dongjidingxing
+        choices: []
+      publicOpinionChange: -1
+    - choiceID: 3
+      choiceText: qingyoukeyuan
+      nextNode:
+        stageDescription: null
+        choices: []
+      publicOpinionChange: 0
+    - choiceID: 4
+      choiceText: weihaigonggong
+      nextNode:
+        stageDescription: liangxingxuanze
+        choices: []
+      publicOpinionChange: 0
+    - choiceID: 5
+      choiceText: laoyi
+      nextNode:
+        stageDescription: null
+        choices: []
+      publicOpinionChange: 0
+    - choiceID: 6
+      choiceText: liufang
+      nextNode:
+        stageDescription: null
+        choices: []
+      publicOpinionChange: 0
+  factionStorylines:
+  - {fileID: 11400000, guid: f03b36bbdfe7ca44381a73d4c8b38e5b, type: 2}
+  - {fileID: 11400000, guid: 7d44bbbf3132a8443a1b4001ae2111a3, type: 2}
+  - {fileID: 11400000, guid: ce022479d6dbb79469618ce23120502d, type: 2}
