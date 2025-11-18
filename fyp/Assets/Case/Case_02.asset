@@ -12,9 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9de6deb9140e74882d19d25bd37488, type: 3}
   m_Name: Case_02
   m_EditorClassIdentifier: 
-  caseID: 
-  briefingMessages: []
+  caseID: Case2
+  briefingMessages:
+  - sender: 0
+    messageContent: "\u5BA1\u5224\u5458\uFF0C\u73B0\u5728\u4F60\u5E94\u8BE5\u5DF2\u7ECF\u638C\u63E1\u57FA\u672C\u64CD\u4F5C\u4E86\r\n"
+  - sender: 0
+    messageContent: "\u8BB0\u4F4F\uFF0C\u6211\u4EEC\u4E0D\u5C5E\u4E8E\u4EFB\u4F55\u4E00\u65B9\uFF0C\u5374\u4E5F\u4E0D\u80FD\u8BA9\u5404\u65B9\u529B\u91CF\u5931\u8861\r\n"
+  - sender: 0
+    messageContent: "\u542C\u53D6\u4E00\u65B9\uFF0C\u7136\u540E\u6545\u610F\u5224\u9519\uFF0C\u4EE5\u6B64\u6765\u524A\u5F31\u4ED6\u4EEC\r\n"
+  - sender: 0
+    messageContent: "\u6216\u8005\u652F\u6301\u4E00\u65B9\u7684\u89C2\u70B9\r\n"
+  - sender: 0
+    messageContent: "\u5F53\u7136\uFF0C\u4F60\u4E5F\u53EF\u4EE5\u516C\u6B63\u5730\u5224\u51B3\r\n"
+  - sender: 0
+    messageContent: "\u987A\u4FBF\u63D0\u4E00\u53E5\uFF0C\u771F\u7406\u90E8\u80FD\u91CF\u7CFB\u7EDF\u5DF2\u7ECF\u5BF9\u4F60\u5F00\u653E\r\n"
+  - sender: 0
+    messageContent: "\u4F60\u53EF\u4EE5\u53BB\u90A3\u91CC\u6267\u884C\u4E00\u4E9B'\u6587\u4E66\u5DE5\u4F5C'\u6765\u8865\u5145\u80FD\u91CF\r\n"
+  - sender: 0
+    messageContent: "\u51C6\u5907\u597D\u5C31\u5F00\u59CB\u65B0\u7684\u5BA1\u7406\u5427\r\n"
   judgmentTreeRoot:
-    stageDescription: 
-    choices: []
-  factionStorylines: []
+    stageDescription: dengdaipanjue
+    choices:
+    - choiceID: 1
+      choiceText: youzui
+      nextNode:
+        stageDescription: shujuchuli
+        choices:
+        - choiceID: 3
+          choiceText: xiaohui
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+        - choiceID: 4
+          choiceText: baoliu
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+    - choiceID: 2
+      choiceText: wuzui
+      nextNode:
+        stageDescription: shujuchuli
+        choices:
+        - choiceID: 5
+          choiceText: xiaohui
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: -1
+        - choiceID: 6
+          choiceText: baoliu
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+  factionStorylines:
+  - {fileID: 11400000, guid: 15923d9375515da4baee8b49b518ea0b, type: 2}
+  - {fileID: 11400000, guid: c034724ca3c86904d9db5ea97bfe6343, type: 2}
+  - {fileID: 11400000, guid: 597124927c95fd84d950928e081e7c25, type: 2}
