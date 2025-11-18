@@ -51,7 +51,7 @@ MonoBehaviour:
         - choiceID: 3
           choiceText: qingyoukeyuan
           nextNode:
-            stageDescription: null
+            stageDescription: 
             choices: []
           publicOpinionChange: 0
         - choiceID: 4
@@ -62,13 +62,13 @@ MonoBehaviour:
             - choiceID: 5
               choiceText: ;aoyi
               nextNode:
-                stageDescription: null
+                stageDescription: 
                 choices: []
               publicOpinionChange: 0
             - choiceID: 6
               choiceText: liufang
               nextNode:
-                stageDescription: null
+                stageDescription: 
                 choices: []
               publicOpinionChange: 0
           publicOpinionChange: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
     - choiceID: 2
       choiceText: wuzui
       nextNode:
-        stageDescription: null
+        stageDescription: 
         choices: []
       publicOpinionChange: -1
   factionStorylines:

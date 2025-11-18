@@ -94,14 +94,6 @@ public class CaseManager : MonoBehaviour
         playerChoiceIndices.Add(choiceIndex);
         endingManager.RecordPublicOpinionChange(choice.publicOpinionChange);
 
-        // ## 移除: 删除这个错误的调用 ##
-        // endingManager.RecordFactionPowerChange(
-        //     choice.truthInfluenceChange,
-        //     choice.orderInfluenceChange,
-        //     choice.loveInfluenceChange,
-        //     choice.peaceInfluenceChange
-        // );
-
         // 2. 停用当前 UI 组
         Transform currentStage = decisionStagesParent.Find(currentNode.stageDescription);
         if (currentStage != null)
@@ -117,9 +109,14 @@ public class CaseManager : MonoBehaviour
         currentNode = choice.nextNode;
 
         // 4. 检查是否审判结束
-        if (currentNode == null)
+        // ####################################################################
+        // ## 修改 (根据你的要求): ##
+        // ## 检查下一个节点是否为 null，或者下一个节点的 stageDescription 是否为 null 或空 ##
+        // ####################################################################
+        if (currentNode == null || string.IsNullOrEmpty(currentNode.stageDescription))
         {
             // 审判结束
+            Debug.Log("CaseManager: 下一个节点为 null 或描述为空。结束案件。");
             endingManager.RecordJudgment(playerChoiceIndices); // 记录最终路径
             GameManager.Instance.EndCase(); // 通知 GameManager
         }
@@ -133,6 +130,8 @@ public class CaseManager : MonoBehaviour
             }
             else
             {
+                // 如果 stageDescription 不是 null 但依然找不到 (例如 "panjue" 拼写错误)，
+                // 这里仍然会报错，这是正确的。
                 Debug.LogError($"CaseManager: 在 {decisionStagesParent.name} 下找不到名为 {currentNode.stageDescription} 的子物体!");
             }
         }
