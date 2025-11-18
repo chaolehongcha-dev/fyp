@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Case04_Peace
+  m_EditorClassIdentifier: Assembly-CSharp::FactionStoryline
+  faction: 3
+  chatMessages:
+  - sender: 3
+    messageContent: "\u4ECA\u5929\u4ED6\u4EEC\u6562\u753B\u753B\r\n"
+  - sender: 3
+    messageContent: "\u660E\u5929\u4ED6\u4EEC\u5C31\u6562\u62FF\u6B66\u5668\uFF01\r\n"
+  - sender: 3
+    messageContent: "\u5FC5\u987B\u5224\u5904\u6709\u7F6A\r\n"
+  - sender: 3
+    messageContent: "\u5E76\u5904\u4EE5\u516C\u5F00\u52B3\u5F79\uFF01\r\n"
+  - sender: 3
+    messageContent: "\u4EE5\u5106\u6548\u5C24\uFF01\r\n"
+  requirement:
+    requiredChoiceIndices: 0000000001000000
+  evaluationSuccessMessages:
+  - sender: 3
+    messageContent: "\u975E\u5E38\u597D\uFF01\r\n"
+  - sender: 3
+    messageContent: "\u516C\u5F00\u52B3\u5F79\u80FD\u8BA9\u6240\u6709\u4EBA\u770B\u5230\u6311\u6218\u519B\u4E8B\u6743\u5A01\u7684\u4E0B\u573A\u3002\r\n"
+  evaluationFailureMessages:
+  - sender: 3
+    messageContent: "\u91CA\u653E\u4ED6\uFF1F\u8FD8\u662F\u4EC5\u4EC5\u8B66\u544A\uFF1F\r\n"
+  - sender: 3
+    messageContent: "\u4F60\u8FD9\u662F\u5728\u7EB5\u5BB9\u53DB\u4E71\uFF01\r\n"

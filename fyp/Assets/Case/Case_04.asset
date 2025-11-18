@@ -12,9 +12,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9de6deb9140e74882d19d25bd37488, type: 3}
   m_Name: Case_04
   m_EditorClassIdentifier: 
-  caseID: 
-  briefingMessages: []
+  caseID: Case4
+  briefingMessages:
+  - sender: 0
+    messageContent: "\u5BA1\u5224\u5458\uFF0C\u4E0B\u4E00\u4E2A\u6848\u5B50\u89E6\u53CA\u4E86\u6743\u529B\u7684\u6838\u5FC3\r\n"
+  - sender: 0
+    messageContent: "\u548C\u5E73\u90E8\u8981\u6C42\u7EDD\u5BF9\u7684\u670D\u4ECE\r\n"
+  - sender: 0
+    messageContent: "\u53CB\u7231\u90E8\u8981\u6C42\u6279\u8BC4\u7684\u6743\u5229\r\n"
+  - sender: 0
+    messageContent: "\u79E9\u5E8F\u90E8\u8FD9\u6B21\u4F3C\u4E4E\u7AD9\u5728\u4E86'\u79E9\u5E8F'\u4E00\u8FB9\r\n"
+  - sender: 0
+    messageContent: "\u4F46\u4ED6\u4EEC\u7684\u8BC9\u6C42\u548C\u548C\u5E73\u90E8\u5E76\u4E0D\u540C\r\n"
+  - sender: 0
+    messageContent: "\u4ED4\u7EC6\u5206\u8FA8\u4ED6\u4EEC\u7684\u8981\u6C42\r\n"
+  - sender: 0
+    messageContent: "\u770B\u770B\u4F60\u80FD\u5229\u7528\u8C01\uFF0C\u6253\u51FB\u8C01\r\n"
   judgmentTreeRoot:
-    stageDescription: 
-    choices: []
-  factionStorylines: []
+    stageDescription: dengdaipanjue
+    choices:
+    - choiceID: 1
+      choiceText: youzui
+      nextNode:
+        stageDescription: liangxingxuanze
+        choices:
+        - choiceID: 3
+          choiceText: shenchajinggao
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+        - choiceID: 4
+          choiceText: gongkailaoyi
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+    - choiceID: 2
+      choiceText: wuzui
+      nextNode:
+        stageDescription: 
+        choices: []
+      publicOpinionChange: 0
+  factionStorylines:
+  - {fileID: 11400000, guid: b6d9e66296795254b88013023835778a, type: 2}
+  - {fileID: 11400000, guid: 2f2dd0db0a4808b4db88150cff0689f7, type: 2}
+  - {fileID: 11400000, guid: 08714df3b17cd88418fdeb63746e896e, type: 2}

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Case05_Love
+  m_EditorClassIdentifier: Assembly-CSharp::FactionStoryline
+  faction: 2
+  chatMessages:
+  - sender: 2
+    messageContent: "\u4ED6\u662F\u82F1\u96C4\uFF01\r\n"
+  - sender: 2
+    messageContent: "\u4ED6\u63ED\u9732\u4E86\u548C\u5E73\u90E8\u548C\u79E9\u5E8F\u90E8\u5C60\u6740\u4EBA\u6C11\u7684\u9634\u8C0B\uFF01\r\n"
+  - sender: 2
+    messageContent: "\u800C\u90A3\u4E2A\u5403\u4EBA\u7684\u534F\u8BAE\u5FC5\u987B\u88AB\u5E9F\u9664\uFF01\r\n"
+  - sender: 2
+    messageContent: "\u5426\u5219\uFF0C\u4EBA\u6C11\u5C06\u7528\u81EA\u5DF1\u7684\u65B9\u5F0F\u6267\u884C\u6B63\u4E49\uFF01\r\n"
+  requirement:
+    requiredChoiceIndices: 000000000000000001000000
+  evaluationSuccessMessages: []
+  evaluationFailureMessages: []

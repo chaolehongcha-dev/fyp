@@ -12,9 +12,110 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9de6deb9140e74882d19d25bd37488, type: 3}
   m_Name: Case_05
   m_EditorClassIdentifier: 
-  caseID: 
-  briefingMessages: []
+  caseID: Case5
+  briefingMessages:
+  - sender: 0
+    messageContent: "\u6700\u540E\u4E00\u4E2A\u6848\u5B50\uFF0C\u5BA1\u5224\u5458\r\n"
+  - sender: 0
+    messageContent: "\u8FD9\u662F\u6700\u5371\u9669\u7684\u4E00\u4E2A\r\n"
+  - sender: 0
+    messageContent: "\u4F60\u4E4B\u524D\u79EF\u7D2F\u7684\u6240\u6709\u5F71\u54CD\u529B\r\n"
+  - sender: 0
+    messageContent: "\u4EE5\u53CA\u4F60\u5BF9\u6C11\u5FC3\u7684\u638C\u63A7\r\n"
+  - sender: 0
+    messageContent: "\u90FD\u5C06\u5728\u6B64\u523B\u53D7\u5230\u6700\u7EC8\u8003\u9A8C\r\n"
+  - sender: 0
+    messageContent: "\u6211\u6709\u9884\u611F\u2026\r\n"
+  - sender: 0
+    messageContent: "\u6709\u5927\u4E8B\u60C5\u8981\u53D1\u751F\u4E86\u2026\r\n"
   judgmentTreeRoot:
-    stageDescription: 
-    choices: []
-  factionStorylines: []
+    stageDescription: shenfen
+    choices:
+    - choiceID: 1
+      choiceText: yingxiong
+      nextNode:
+        stageDescription: xingwei
+        choices:
+        - choiceID: 3
+          choiceText: jiajiang
+          nextNode:
+            stageDescription: xieyi
+            choices:
+            - choiceID: 7
+              choiceText: weihuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+            - choiceID: 8
+              choiceText: feichuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+          publicOpinionChange: 0
+        - choiceID: 4
+          choiceText: chengfa
+          nextNode:
+            stageDescription: xieyi
+            choices:
+            - choiceID: 9
+              choiceText: weihuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+            - choiceID: 10
+              choiceText: feichuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: -1
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+    - choiceID: 2
+      choiceText: pantu
+      nextNode:
+        stageDescription: xingwei
+        choices:
+        - choiceID: 5
+          choiceText: jiajiang
+          nextNode:
+            stageDescription: xieyi
+            choices:
+            - choiceID: 11
+              choiceText: weihuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+            - choiceID: 12
+              choiceText: feichuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+          publicOpinionChange: -1
+        - choiceID: 6
+          choiceText: chengfa
+          nextNode:
+            stageDescription: xieyi
+            choices:
+            - choiceID: 13
+              choiceText: weihuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+            - choiceID: 14
+              choiceText: feichuxieyi
+              nextNode:
+                stageDescription: 
+                choices: []
+              publicOpinionChange: 0
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+  factionStorylines:
+  - {fileID: 11400000, guid: f007a5bb354b6454baf8ff71eaddac50, type: 2}
+  - {fileID: 11400000, guid: f6e201bc887d9c54d9792c2d77f1cb8c, type: 2}
+  - {fileID: 11400000, guid: 75e494c61e6b7c348ae70c883b426dad, type: 2}

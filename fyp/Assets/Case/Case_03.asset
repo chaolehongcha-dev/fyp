@@ -12,9 +12,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9de6deb9140e74882d19d25bd37488, type: 3}
   m_Name: Case_03
   m_EditorClassIdentifier: 
-  caseID: 
-  briefingMessages: []
+  caseID: Case3
+  briefingMessages:
+  - sender: 0
+    messageContent: "\u5BA1\u5224\u5458\uFF0C\u65B0\u6848\u5B50\r\n"
+  - sender: 0
+    messageContent: "\u8FD9\u6B21\u7684\u51B2\u7A81\u70B9\u5728\u4E8E\u8D44\u6E90\r\n"
+  - sender: 0
+    messageContent: "\u662F\u4F18\u5148\u6EE1\u8DB3\u79E9\u5E8F\u90E8\u7CBE\u82F1\u7684'\u672A\u6765\u53EF\u80FD'\r\n"
+  - sender: 0
+    messageContent: "\u8FD8\u662F\u4F18\u5148\u6EE1\u8DB3\u53CB\u7231\u90E8\u6C11\u4F17\u7684'\u5F53\u4E0B\u751F\u5B58'\uFF1F\r\n"
+  - sender: 0
+    messageContent: "\u548C\u5E73\u90E8\u8FD9\u6B21\u4F3C\u4E4E\u662F\u4E2D\u7ACB\u7684\r\n"
+  - sender: 0
+    messageContent: "\u8FD9\u662F\u4E00\u4E2A\u5229\u7528\u4ED6\u4EEC\u6765\u5236\u8861\u53E6\u5916\u4E24\u6D3E\u7684\u597D\u673A\u4F1A\r\n"
   judgmentTreeRoot:
-    stageDescription: 
-    choices: []
-  factionStorylines: []
+    stageDescription: dengdaipanjue
+    choices:
+    - choiceID: 1
+      choiceText: youzui
+      nextNode:
+        stageDescription: zangwuchuli
+        choices:
+        - choiceID: 3
+          choiceText: chonggong
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+        - choiceID: 4
+          choiceText: chongxinfenpei
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+    - choiceID: 2
+      choiceText: wuzui
+      nextNode:
+        stageDescription: zangwuchuli
+        choices:
+        - choiceID: 5
+          choiceText: chonggong
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: -1
+        - choiceID: 6
+          choiceText: guihuan
+          nextNode:
+            stageDescription: 
+            choices: []
+          publicOpinionChange: 0
+      publicOpinionChange: 0
+  factionStorylines:
+  - {fileID: 11400000, guid: 150bcd90a3fee2e4dad97d4cc684198c, type: 2}
+  - {fileID: 11400000, guid: cc8d3104bfed3694b9e21b169c8c79ee, type: 2}
+  - {fileID: 11400000, guid: 2061791a0d4e7774183e4a87251c8a35, type: 2}
