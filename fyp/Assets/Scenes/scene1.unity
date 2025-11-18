@@ -976,8 +976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 0}
-  targetNodeID: panjue
+  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  targetNodeID: dengdaipanjue
   choiceIndex: 0
 --- !u!1 &67554228
 GameObject:
@@ -1785,8 +1785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 0}
-  targetNodeID: fangshi
+  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  targetNodeID: liangxingxuanze
   choiceIndex: 0
 --- !u!33 &84881112
 MeshFilter:
@@ -4325,7 +4325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &406853831
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4333,9 +4333,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406853830}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.9038341, z: -0, w: -0.42788303}
+  m_LocalPosition: {x: 0, y: 0, z: -18.041}
+  m_LocalScale: {x: 0.013464792, y: 0.014527615, z: 0.011928412}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1342043509}
@@ -4343,11 +4343,11 @@ RectTransform:
   - {fileID: 608232969}
   - {fileID: 1871762690}
   - {fileID: 915257059}
-  m_Father: {fileID: 1934271076}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
+  m_AnchoredPosition: {x: 2400134.8, y: -984372.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &438279845
@@ -8920,8 +8920,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 0}
-  targetNodeID: panjue
+  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  targetNodeID: dengdaipanjue
   choiceIndex: 1
 --- !u!1 &991613141
 GameObject:
@@ -11431,8 +11431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 0}
-  targetNodeID: liangxing
+  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  targetNodeID: dongjidingxing
   choiceIndex: 0
 --- !u!1 &1222957505
 GameObject:
@@ -11631,7 +11631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1227792877
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11639,9 +11639,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227792876}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.9038341, z: -0, w: -0.42788303}
+  m_LocalPosition: {x: 0, y: 0, z: -18.041}
+  m_LocalScale: {x: 0.013464792, y: 0.014527615, z: 0.011928412}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 830944346}
@@ -11649,11 +11649,11 @@ RectTransform:
   - {fileID: 1649360643}
   - {fileID: 228640357}
   - {fileID: 1327012622}
-  m_Father: {fileID: 1934271076}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
+  m_AnchoredPosition: {x: 2400134.8, y: -984372.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1236028984
@@ -16750,7 +16750,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1854409685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16758,9 +16758,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854409684}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.9038341, z: -0, w: -0.42788303}
+  m_LocalPosition: {x: 0, y: 0, z: -18.041}
+  m_LocalScale: {x: 0.013464792, y: 0.014527615, z: 0.011928412}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 150297384}
@@ -16768,11 +16768,11 @@ RectTransform:
   - {fileID: 1013693755}
   - {fileID: 1846916773}
   - {fileID: 1197858822}
-  m_Father: {fileID: 1934271076}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
+  m_AnchoredPosition: {x: 2400134.8, y: -984372.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1871762689
@@ -17607,8 +17607,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 0}
-  targetNodeID: fangshi
+  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  targetNodeID: liangxingxuanze
   choiceIndex: 1
 --- !u!1 &1934271072
 GameObject:
@@ -17704,10 +17704,6 @@ RectTransform:
   m_LocalScale: {x: 0.013464793, y: 0.014527615, z: 0.011928413}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1227792877}
-  - {fileID: 1963773564}
-  - {fileID: 1854409685}
-  - {fileID: 406853831}
   - {fileID: 1436935848}
   - {fileID: 355096910}
   - {fileID: 879181379}
@@ -17735,7 +17731,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1963773564
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17743,9 +17739,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963773563}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -67400.15}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.9038341, z: -0, w: -0.42788303}
+  m_LocalPosition: {x: 0, y: 0, z: -18.041}
+  m_LocalScale: {x: 0.013464792, y: 0.014527615, z: 0.011928412}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 324505421}
@@ -17753,11 +17749,11 @@ RectTransform:
   - {fileID: 1065854992}
   - {fileID: 489791364}
   - {fileID: 1729430805}
-  m_Father: {fileID: 1934271076}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48929.914, y: 14731.779}
+  m_AnchoredPosition: {x: 2400134.8, y: -984372.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1995234934
@@ -17951,8 +17947,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bd34c5374f7a14fb9ea1a56592b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeCase: {fileID: 0}
-  targetNodeID: liangxing
+  activeCase: {fileID: 11400000, guid: 224f351b44e3e4b4198c0e9ddcd216f8, type: 2}
+  targetNodeID: dongjidingxing
   choiceIndex: 1
 --- !u!1 &2047438030
 GameObject:
@@ -19064,6 +19060,10 @@ MeshFilter:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 406853831}
+  - {fileID: 1854409685}
+  - {fileID: 1963773564}
+  - {fileID: 1227792877}
   - {fileID: 832605976}
   - {fileID: 1186662045}
   - {fileID: 1852624418}
