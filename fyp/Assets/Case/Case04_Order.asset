@@ -36,7 +36,7 @@ MonoBehaviour:
   - sender: 1
     messageContent: "\u5904\u7406\u5F97\u4E0D\u9519\r\n"
   evaluationFailureMessages:
-  - sender: 0
+  - sender: 1
     messageContent: "\u8FD9\u4F1A\u4F7F\u77DB\u76FE\u6FC0\u5316\uFF01\r\n"
   - sender: 0
     messageContent: "\u4F60\u9009\u62E9\u4E86\u6700\u6CA1\u6709\u6548\u7387\u7684\u5904\u7406\u65B9\u5F0F\uFF01\r\n"

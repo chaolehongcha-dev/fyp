@@ -34,5 +34,5 @@ MonoBehaviour:
     messageContent: "\u4F60\u5C45\u7136\u5224\u4ED6\u65E0\u7F6A\u2026\r\n"
   - sender: 2
     messageContent: "\u7CBE\u82F1\u4EEC\u53EF\u4EE5\u968F\u610F\u7A83\u53D6\u4EBA\u6C11\u7684\u751F\u5B58\u8D44\u6E90\r\n"
-  - sender: 2
+  - sender: 3
     messageContent: "\u8FD9\u5C31\u662F\u4F60\u7684'\u516C\u6B63'\u5417\uFF1F\r\n"

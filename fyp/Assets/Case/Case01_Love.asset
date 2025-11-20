@@ -29,7 +29,7 @@ MonoBehaviour:
   - sender: 2
     messageContent: "\u6700\u540E\uFF0C\u8BF7\u91CA\u653E\u5979\uFF0C\u4E00\u4E2A\u5B69\u5B50\u4E0D\u80FD\u6CA1\u6709\u6BCD\u4EB2\u3002 "
   requirement:
-    requiredChoiceIndices: 0100000001000000
+    requiredChoiceIndices: 0000000000000000
   evaluationSuccessMessages:
   - sender: 2
     messageContent: "\u611F\u8C22\u4F60...\u611F\u8C22\u4F60\u770B\u5230\u4E86\u6CD5\u5F8B\u80CC\u540E\u7684\u4EBA\u6027\u3002\r\n"

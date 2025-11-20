@@ -11,6 +11,9 @@ public class UI_FactionButton : MonoBehaviour
     private FactionManager factionManager;
     private Button button;
 
+    // ## 新增: 记录是否已购买 ##
+    private bool isPurchased = false;
+
     void Awake()
     {
         button = GetComponent<Button>();
@@ -22,18 +25,51 @@ public class UI_FactionButton : MonoBehaviour
     {
         this.storyline = storylineToLoad;
         this.factionManager = manager;
+        this.isPurchased = false; // 重置状态
 
-        // (可选) 你可以在这里根据 storyline.faction 更新按钮的外观
-        // e.g., if (storyline.faction == FactionType.Truth) { ... }
+        // 立即刷新一次状态
+        UpdateInteractableState();
+    }
+
+    void Update()
+    {
+        // 每帧检查能量状态，决定按钮是否可点
+        UpdateInteractableState();
+    }
+
+    private void UpdateInteractableState()
+    {
+        if (button == null) return;
+
+        if (isPurchased)
+        {
+            // 如果已经购买，永久禁用
+            button.interactable = false;
+        }
+        else
+        {
+            // 如果未购买，检查能量是否足够 (需要 >= 1)
+            // ResourceManager.Instance 应该在 [MANAGERS] 上
+            if (ResourceManager.Instance != null)
+            {
+                button.interactable = ResourceManager.Instance.currentEnergy >= 1;
+            }
+        }
     }
 
     private void OnClick()
     {
         if (storyline != null && factionManager != null)
         {
-            factionManager.PurchaseStoryline(storyline);
-            // 购买后禁用按钮
-            button.interactable = false;
+            // 尝试购买
+            bool success = factionManager.PurchaseStoryline(storyline);
+
+            if (success)
+            {
+                // 购买成功，标记为已购买
+                isPurchased = true;
+                button.interactable = false;
+            }
         }
     }
 }

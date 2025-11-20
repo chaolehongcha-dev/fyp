@@ -15,7 +15,7 @@ public class ImageGenerationService : MonoBehaviour
     // ## 重要 ##: 
     // 1. 去 Google AI Studio (https://aistudio.google.com/) 获取你的 API 密钥。
     // 2. 把它粘贴到这里。
-    private const string apiKey = "";
+    private const string apiKey = "AIzaSyCUiw58MO1PRsHxBw-owzCswRjI1pIADVo";
 
     // Google Imagen 4 的 API 端点
     private const string apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=";

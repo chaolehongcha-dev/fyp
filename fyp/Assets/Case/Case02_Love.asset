@@ -23,7 +23,7 @@ MonoBehaviour:
   - sender: 2
     messageContent: "\u8FD9\u624D\u662F\u4E3A\u4E86\u4EBA\u6C11\r\n"
   requirement:
-    requiredChoiceIndices: 0000000001000000
+    requiredChoiceIndices: 0000000000000000
   evaluationSuccessMessages:
   - sender: 2
     messageContent: "\u505A\u5F97\u597D\uFF01\r\n"

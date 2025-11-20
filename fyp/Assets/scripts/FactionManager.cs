@@ -6,13 +6,12 @@ using System.Collections.Generic;
 // ####################################################################
 public class FactionManager : MonoBehaviour
 {
-    public List<FactionStoryline> activeStorylines; // 本案购买的故事线
+    public List<FactionStoryline> activeStorylines;
 
-    // 管理器引用
     private ResourceManager resourceManager;
     private EndingManager endingManager;
     private CaseManager caseManager;
-    private ChatSystem chatSystem; // 聊天系统
+    private ChatSystem chatSystem;
 
     void Awake()
     {
@@ -34,34 +33,38 @@ public class FactionManager : MonoBehaviour
         activeStorylines = new List<FactionStoryline>();
     }
 
-    // 由 UI_FactionButton 调用
-    public void PurchaseStoryline(FactionStoryline storyline)
+    // ## 修改: 返回 bool 类型，指示购买是否成功 ##
+    public bool PurchaseStoryline(FactionStoryline storyline)
     {
-        if (GameManager.Instance.CurrentState != GameState.StorylinePhase) return;
+        if (GameManager.Instance.CurrentState != GameState.StorylinePhase) return false;
+
+        // 检查是否已经购买过 (防止重复购买)
+        if (activeStorylines.Contains(storyline))
+        {
+            return true; // 已经买过了，视为成功但不扣费
+        }
 
         if (resourceManager.SpendEnergy(1))
         {
             activeStorylines.Add(storyline);
 
-            // -------------------------------------------------
-            // ## 通知聊天系统 ##
-            // -------------------------------------------------
+            // 通知聊天系统
             Debug.Log($"购买了 {storyline.faction} 的故事线。");
             if (chatSystem != null)
             {
                 chatSystem.ShowFactionMessages(storyline.chatMessages);
             }
-            // -------------------------------------------------
 
             endingManager.RecordStorylinePurchase(storyline.faction);
+            return true; // 购买成功
         }
         else
         {
             Debug.Log("能量不足，无法购买故事线。");
+            return false; // 购买失败
         }
     }
 
-    // 由 GameManager 在 CaseWrapUp 阶段调用
     public void EvaluatePlayerJudgment()
     {
         List<int> playerPath = caseManager.playerChoiceIndices;
@@ -72,7 +75,6 @@ public class FactionManager : MonoBehaviour
             FactionType faction = storyline.faction;
             List<int> requiredPath = storyline.requirement.requiredChoiceIndices;
 
-            // 核心比对逻辑 (前缀匹配)
             bool didComply = true;
             if (playerPath.Count < requiredPath.Count)
             {
@@ -90,14 +92,10 @@ public class FactionManager : MonoBehaviour
                 }
             }
 
-            // -------------------------------------------------
-            // ## 修改: 通知聊天系统 ##
-            // -------------------------------------------------
             Debug.Log(didComply ? $"你满足了 {faction} 的要求。" : $"你违背了 {faction} 的意愿。");
 
             if (chatSystem != null)
             {
-                // ## 修改: 现在我们传入 FactionType 和 消息列表 ##
                 if (didComply)
                 {
                     chatSystem.ShowEvaluationMessages(faction, storyline.evaluationSuccessMessages);
@@ -107,7 +105,6 @@ public class FactionManager : MonoBehaviour
                     chatSystem.ShowEvaluationMessages(faction, storyline.evaluationFailureMessages);
                 }
             }
-            // -------------------------------------------------
 
             endingManager.RecordFactionInfluence(faction, didComply);
         }

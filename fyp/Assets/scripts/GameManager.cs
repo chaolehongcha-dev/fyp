@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public List<CaseData> allCases;
 
     [Header("案件 UI 物体 (Case GameObjects)")]
-    public List<GameObject> caseGameObjects; // 请把 Case1, Case2, Case3... 拖进去
+    public List<GameObject> caseGameObjects;
 
     public int currentCaseIndex = 0;
 
@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
 
         if (endingScreenPanel != null) endingScreenPanel.SetActive(false);
 
-        // 初始隐藏所有案件物体
         foreach (var caseObj in caseGameObjects)
         {
             if (caseObj != null) caseObj.SetActive(false);
@@ -76,15 +75,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 切换案件 UI 物体的显隐
-        // 1. 隐藏上一个案件 (如果有)
         if (currentCaseIndex > 0 && currentCaseIndex - 1 < caseGameObjects.Count)
         {
             if (caseGameObjects[currentCaseIndex - 1] != null)
                 caseGameObjects[currentCaseIndex - 1].SetActive(false);
         }
 
-        // 2. 激活当前案件
         GameObject currentCaseObj = null;
         if (currentCaseIndex < caseGameObjects.Count)
         {
@@ -99,24 +95,22 @@ public class GameManager : MonoBehaviour
 
         CaseData caseToLoad = allCases[currentCaseIndex];
 
-        // 1. 通知管理器准备 (## 修改: 传入当前案件的 GameObject ##)
         caseManager.StartCase(caseToLoad, currentCaseObj);
 
         factionManager.ClearActiveStorylines();
 
-        // 2. 设置状态
         currentState = GameState.CaseBriefing;
 
-        // 3. 激活 Mask 1
         stage1_Briefing.SetActive(true);
         stage2_Storyline.SetActive(false);
         stage3_Judgment.SetActive(false);
 
-        // 5. 通知聊天系统
         StopAllCoroutines();
 
         if (chatSystem != null)
         {
+            // ## 修改: 这里的清理逻辑已经移动到了 EndCase ##
+            // 这里只负责显示新简报
             chatSystem.ShowBriefing(caseToLoad.briefingMessages);
         }
     }
@@ -142,8 +136,24 @@ public class GameManager : MonoBehaviour
     public void EndCase()
     {
         if (currentState != GameState.JudgmentPhase) return;
+
         currentState = GameState.CaseWrapUp;
+
+        // ## 修改: 1. 先清理旧消息 (删掉本案的购买记录和简报) ##
+        if (chatSystem != null)
+        {
+            chatSystem.ClearTransientMessages();
+        }
+
+        // ## 修改: 2. 再生成评价 (这些评价会作为“新”的临时消息保留到下一个案子) ##
         factionManager.EvaluatePlayerJudgment();
+
+        if (ResourceManager.Instance != null)
+        {
+            ResourceManager.Instance.AddEnergy(1);
+            Debug.Log("案件结束，能量 +1");
+        }
+
         Debug.Log("本案结束. 准备加载下一个案件...");
         LoadCase(currentCaseIndex + 1);
     }
@@ -158,7 +168,6 @@ public class GameManager : MonoBehaviour
         stage2_Storyline.SetActive(false);
         stage3_Judgment.SetActive(false);
 
-        // 隐藏最后一个案件的 UI 物体
         int lastCaseIndex = allCases.Count - 1;
         if (lastCaseIndex < caseGameObjects.Count && caseGameObjects[lastCaseIndex] != null)
         {
