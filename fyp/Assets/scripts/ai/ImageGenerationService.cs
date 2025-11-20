@@ -11,7 +11,7 @@ public class ImageGenerationService : MonoBehaviour
     public static ImageGenerationService Instance { get; private set; }
 
     // ÇëÌîÈëÄãµÄ API Key
-    private const string apiKey = "AIzaSyBdwUJLDshtwiqjQIay-OdSoiLr1znRpxU";
+    private const string apiKey = "";
     private const string apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=";
 
     [System.Serializable]
