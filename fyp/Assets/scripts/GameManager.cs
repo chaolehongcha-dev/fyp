@@ -2,15 +2,20 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // ## 1. 引入场景管理 ##
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    // ## 2. 静态变量，用于把数据传给 EndingScene ##
+    public static Texture2D FinalImage;
+    public static List<string> FinalTexts;
+
     [Header("案件列表")]
     public List<CaseData> allCases;
 
-    [Header("案件 UI 物体 (Case GameObjects)")]
+    [Header("案件 UI 物体")]
     public List<GameObject> caseGameObjects;
 
     public int currentCaseIndex = 0;
@@ -27,9 +32,8 @@ public class GameManager : MonoBehaviour
     private ChatSystem chatSystem;
     private ImageGenerationService imageGenService;
 
-    [Header("结局画面 UI")]
-    public GameObject endingScreenPanel;
-    public RawImage endingImageDisplay;
+    [Header("加载提示 (结局前)")]
+    public GameObject loadingPanel; // 简单的加载界面
     public Text loadingText;
 
     private GameState currentState;
@@ -55,7 +59,7 @@ public class GameManager : MonoBehaviour
         chatSystem = FindObjectOfType<ChatSystem>();
         imageGenService = FindObjectOfType<ImageGenerationService>();
 
-        if (endingScreenPanel != null) endingScreenPanel.SetActive(false);
+        if (loadingPanel != null) loadingPanel.SetActive(false);
 
         foreach (var caseObj in caseGameObjects)
         {
@@ -88,19 +92,12 @@ public class GameManager : MonoBehaviour
             if (currentCaseObj != null)
                 currentCaseObj.SetActive(true);
         }
-        else
-        {
-            Debug.LogWarning("GameManager: Case GameObjects 列表中缺少对应索引的物体!");
-        }
 
         CaseData caseToLoad = allCases[currentCaseIndex];
-
         caseManager.StartCase(caseToLoad, currentCaseObj);
-
         factionManager.ClearActiveStorylines();
 
         currentState = GameState.CaseBriefing;
-
         stage1_Briefing.SetActive(true);
         stage2_Storyline.SetActive(false);
         stage3_Judgment.SetActive(false);
@@ -109,8 +106,6 @@ public class GameManager : MonoBehaviour
 
         if (chatSystem != null)
         {
-            // ## 修改: 这里的清理逻辑已经移动到了 EndCase ##
-            // 这里只负责显示新简报
             chatSystem.ShowBriefing(caseToLoad.briefingMessages);
         }
     }
@@ -136,25 +131,13 @@ public class GameManager : MonoBehaviour
     public void EndCase()
     {
         if (currentState != GameState.JudgmentPhase) return;
-
         currentState = GameState.CaseWrapUp;
 
-        // ## 修改: 1. 先清理旧消息 (删掉本案的购买记录和简报) ##
-        if (chatSystem != null)
-        {
-            chatSystem.ClearTransientMessages();
-        }
-
-        // ## 修改: 2. 再生成评价 (这些评价会作为“新”的临时消息保留到下一个案子) ##
+        if (chatSystem != null) chatSystem.ClearTransientMessages();
         factionManager.EvaluatePlayerJudgment();
 
-        if (ResourceManager.Instance != null)
-        {
-            ResourceManager.Instance.AddEnergy(1);
-            Debug.Log("案件结束，能量 +1");
-        }
+        if (ResourceManager.Instance != null) ResourceManager.Instance.AddEnergy(1);
 
-        Debug.Log("本案结束. 准备加载下一个案件...");
         LoadCase(currentCaseIndex + 1);
     }
 
@@ -164,36 +147,40 @@ public class GameManager : MonoBehaviour
         Debug.Log("所有案件已审理完毕！");
         string finalJson = endingManager.GenerateFinalDataForAPI();
 
+        // 隐藏所有 Mask 和 Case 物体
         stage1_Briefing.SetActive(false);
         stage2_Storyline.SetActive(false);
         stage3_Judgment.SetActive(false);
-
         int lastCaseIndex = allCases.Count - 1;
         if (lastCaseIndex < caseGameObjects.Count && caseGameObjects[lastCaseIndex] != null)
-        {
             caseGameObjects[lastCaseIndex].SetActive(false);
-        }
 
-        if (endingScreenPanel != null)
+        // 显示加载提示
+        if (loadingPanel != null)
         {
-            endingScreenPanel.SetActive(true);
-            loadingText.text = "正在根据你的判决生成最终结局...";
-            endingImageDisplay.gameObject.SetActive(false);
+            loadingPanel.SetActive(true);
+            if (loadingText) loadingText.text = "正在演算最终结局... (Calculating Final Outcome...)";
         }
 
         if (imageGenService != null)
             imageGenService.GenerateEndingImage(finalJson, OnImageReceived);
         else
-            loadingText.text = "错误: 图像生成服务未启动。";
+            Debug.LogError("错误: 图像生成服务未启动。");
     }
 
-    private void OnImageReceived(Texture2D generatedImage)
+    // ## 修改: 接收数据并跳转场景 ##
+    private void OnImageReceived(Texture2D generatedImage, List<string> narratives)
     {
-        if (endingScreenPanel != null)
-        {
-            loadingText.gameObject.SetActive(false);
-            endingImageDisplay.texture = generatedImage;
-            endingImageDisplay.gameObject.SetActive(true);
-        }
+        Debug.Log("结局生成完毕，准备跳转...");
+
+        // 1. 保存数据到静态变量，以便新场景读取
+        FinalImage = generatedImage;
+        FinalTexts = narratives;
+
+        // 2. 隐藏加载面板
+        if (loadingPanel != null) loadingPanel.SetActive(false);
+
+        // 3. 跳转到 EndingScene
+        SceneManager.LoadScene("EndingScene");
     }
 }
