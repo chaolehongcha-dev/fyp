@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: f3a1c301f26bc184fbc2430d0c1f706c, type: 3}
   m_Name: Case01_Love
-  m_EditorClassIdentifier: Assembly-CSharp::FactionStoryline
+  m_EditorClassIdentifier: 
   faction: 2
   chatMessages:
   - sender: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
   - sender: 2
     messageContent: "\u4F46\u4F60\u5FC5\u987B\u7406\u89E3\u5979\u7684\u52A8\u673A\u662F\u60C5\u6709\u53EF\u539F\u7684\u3002\r\n"
   - sender: 2
-    messageContent: "\u6700\u540E\uFF0C\u8BF7\u91CA\u653E\u5979\uFF0C\u4E00\u4E2A\u5B69\u5B50\u4E0D\u80FD\u6CA1\u6709\u6BCD\u4EB2\u3002 "
+    messageContent: "\u6700\u540E\uFF0C\u8BF7\u91CA\u653E\u5979\uFF0C\u4E00\u4E2A\u5B69\u5B50\u4E0D\u80FD\u6CA1\u6709\u6BCD\u4EB2\u3002\r\n"
   requirement:
     requiredChoiceIndices: 0000000000000000
   evaluationSuccessMessages:

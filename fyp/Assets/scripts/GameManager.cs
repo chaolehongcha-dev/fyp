@@ -1,43 +1,34 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement; // ## 1. ÒıÈë³¡¾°¹ÜÀí ##
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static string FinalJsonData;
 
-    // ## 2. ¾²Ì¬±äÁ¿£¬ÓÃÓÚ°ÑÊı¾İ´«¸ø EndingScene ##
-    public static Texture2D FinalImage;
-    public static List<string> FinalTexts;
-
-    [Header("°¸¼şÁĞ±í")]
+    [Header("æ¡ˆä»¶åˆ—è¡¨ (CaseData)")]
     public List<CaseData> allCases;
 
-    [Header("°¸¼ş UI ÎïÌå")]
+    [Header("æ¡ˆä»¶ UI ç‰©ä½“ (å»ºè®®æ‰‹åŠ¨æ‹–æ‹½ Case1-5 åˆ°è¿™é‡Œ)")]
     public List<GameObject> caseGameObjects;
 
     public int currentCaseIndex = 0;
 
-    [Header("³¡¾°MaskÒıÓÃ")]
     public GameObject stage1_Briefing;
     public GameObject stage2_Storyline;
     public GameObject stage3_Judgment;
 
-    [Header("¹ÜÀíÆ÷ÒıÓÃ")]
     public CaseManager caseManager;
     public FactionManager factionManager;
     public EndingManager endingManager;
     private ChatSystem chatSystem;
-    private ImageGenerationService imageGenService;
-
-    [Header("¼ÓÔØÌáÊ¾ (½á¾ÖÇ°)")]
-    public GameObject loadingPanel; // ¼òµ¥µÄ¼ÓÔØ½çÃæ
-    public Text loadingText;
 
     private GameState currentState;
     public GameState CurrentState => currentState;
+
+    private bool isInitialized = false;
 
     void Awake()
     {
@@ -52,55 +43,199 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // ğŸ›‘ ä¿®å¤ 1: å¦‚æœæ˜¯ç»“å±€åœºæ™¯ï¼Œç»å¯¹ä¸è¦åˆå§‹åŒ–æ¸¸æˆé€»è¾‘ï¼
+        // é˜²æ­¢ GameManager åœ¨ç»“å±€åœºæ™¯é‡Œçæ‰¾ Case ç‰©ä½“ï¼Œå¯¼è‡´æŠ¥é”™å’Œå¾ªç¯é‡è½½
+        if (scene.name == "EndingScene") return;
+
+        if (FindObjectOfType<CaseManager>() != null)
+        {
+            isInitialized = false;
+            StartCoroutine(InitGameSequence());
+        }
+    }
+
     void Start()
     {
-        if (caseManager == null || factionManager == null || endingManager == null)
-            Debug.LogError("GAME MANAGER: ¹ÜÀíÆ÷Î´ÍêÈ«Á´½Ó!");
-        chatSystem = FindObjectOfType<ChatSystem>();
-        imageGenService = FindObjectOfType<ImageGenerationService>();
+        // åŒæ ·åœ¨ Start é‡Œä¹Ÿé˜²ä¸€æ‰‹ (è™½ç„¶é€šå¸¸ OnSceneLoaded ä¼šå…ˆè§¦å‘)
+        if (SceneManager.GetActiveScene().name == "EndingScene") return;
 
-        if (loadingPanel != null) loadingPanel.SetActive(false);
+        if (!isInitialized && FindObjectOfType<CaseManager>() != null)
+        {
+            StartCoroutine(InitGameSequence());
+        }
+    }
+
+    IEnumerator InitGameSequence()
+    {
+        isInitialized = true;
+        yield return new WaitForSeconds(0.5f);
+
+        caseManager = FindObjectOfType<CaseManager>();
+        factionManager = FindObjectOfType<FactionManager>();
+        endingManager = FindObjectOfType<EndingManager>();
+
+        if (caseManager == null) yield break;
+
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null) audioManager.PlayBGM();
+
+        RefreshSceneReferences();
+
+        // ğŸ›‘ ä¿®å¤ 2: å¦‚æœæ‰¾ä¸åˆ° Case ç‰©ä½“ï¼Œç«‹å³ç»ˆæ­¢ï¼
+        // ç»å¯¹ä¸è¦ç»§ç»­å¾€ä¸‹æ‰§è¡Œ LoadCaseï¼Œå¦åˆ™ä¼šè§¦å‘ "EndGame" -> "é‡è½½åœºæ™¯" çš„æ­»å¾ªç¯
+        if (caseGameObjects.Count == 0)
+        {
+            Debug.LogError("[GameManager] ä¸¥é‡é”™è¯¯ï¼šCase åˆ—è¡¨ä¸ºç©ºï¼åœæ­¢åˆå§‹åŒ–ã€‚");
+            yield break;
+        }
 
         foreach (var caseObj in caseGameObjects)
         {
             if (caseObj != null) caseObj.SetActive(false);
         }
 
+        float timer = 0f;
+        while (chatSystem == null && timer < 3.0f)
+        {
+            chatSystem = FindObjectOfType<ChatSystem>();
+            if (chatSystem == null) { yield return null; timer += Time.deltaTime; }
+        }
+
         LoadCase(currentCaseIndex);
+    }
+
+    void RefreshSceneReferences()
+    {
+        if (caseGameObjects != null && caseGameObjects.Count > 0)
+        {
+            caseGameObjects.RemoveAll(item => item == null);
+            if (caseGameObjects.Count > 0)
+            {
+                Debug.Log($"[GameManager] ä½¿ç”¨æ‰‹åŠ¨èµ‹å€¼çš„ {caseGameObjects.Count} ä¸ªæ¡ˆä»¶ç‰©ä½“ã€‚");
+                RefreshStageReferencesOnly();
+                return;
+            }
+        }
+
+        Debug.Log("[GameManager] è‡ªåŠ¨æŸ¥æ‰¾åœºæ™¯ç‰©ä½“ä¸­...");
+        caseGameObjects = new List<GameObject>();
+        List<GameObject> allRootObjs = new List<GameObject>();
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.IsValid()) allRootObjs.AddRange(scene.GetRootGameObjects());
+
+        for (int i = 1; i <= 5; i++)
+        {
+            string[] possibleNames = new string[] {
+                "Case" + i, "Case " + i, "Case_" + i,
+                "Case0" + i, "Case 0" + i, "Case_0" + i
+            };
+
+            GameObject found = null;
+            foreach (var targetName in possibleNames)
+            {
+                foreach (var root in allRootObjs)
+                {
+                    if (root.name.IndexOf(targetName, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        found = root;
+                        break;
+                    }
+                    Transform t = root.transform.FindRecursive(targetName);
+                    if (t != null)
+                    {
+                        found = t.gameObject;
+                        break;
+                    }
+                }
+                if (found != null) break;
+            }
+
+            if (found != null) caseGameObjects.Add(found);
+        }
+
+        RefreshStageReferencesOnly();
+    }
+
+    void RefreshStageReferencesOnly()
+    {
+        Transform canvas = GameObject.Find("Screen1_Canvas")?.transform;
+        if (canvas == null) canvas = FindObjectOfType<Canvas>()?.transform;
+
+        if (canvas != null)
+        {
+            if (stage1_Briefing == null) stage1_Briefing = canvas.FindRecursive("Stage1")?.gameObject;
+            if (stage2_Storyline == null) stage2_Storyline = canvas.FindRecursive("Stage2")?.gameObject;
+            if (stage3_Judgment == null) stage3_Judgment = canvas.FindRecursive("Stage3")?.gameObject;
+        }
+    }
+
+    public void ResetGame()
+    {
+        Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
 
     public void LoadCase(int index)
     {
         currentCaseIndex = index;
 
+        // 1. æ£€æŸ¥ç´¢å¼•æ˜¯å¦è¶Šç•Œ
         if (currentCaseIndex >= allCases.Count)
         {
+            Debug.Log("[GameManager] æ‰€æœ‰æ¡ˆä»¶å·²ç»“æŸï¼Œè¿›å…¥ç»“å±€ã€‚");
             EndGame();
             return;
         }
 
+        // 2. éšè—ä¸Šä¸€ä¸ªæ¡ˆä»¶ç‰©ä½“
         if (currentCaseIndex > 0 && currentCaseIndex - 1 < caseGameObjects.Count)
         {
             if (caseGameObjects[currentCaseIndex - 1] != null)
                 caseGameObjects[currentCaseIndex - 1].SetActive(false);
         }
 
+        // 3. å‡†å¤‡å½“å‰æ¡ˆä»¶ç‰©ä½“ (ä½†å…ˆåˆ«æ€¥ç€æ¿€æ´»ï¼)
         GameObject currentCaseObj = null;
         if (currentCaseIndex < caseGameObjects.Count)
         {
             currentCaseObj = caseGameObjects[currentCaseIndex];
-            if (currentCaseObj != null)
-                currentCaseObj.SetActive(true);
+            // âŒ åˆ é™¤åŸæ¥çš„æ¿€æ´»ä»£ç : if (currentCaseObj != null) currentCaseObj.SetActive(true);
         }
 
+        if (currentCaseObj == null)
+        {
+            Debug.LogError($"[GameManager] æ— æ³•åŠ è½½æ¡ˆä»¶ {index + 1}: å¯¹åº”çš„åœºæ™¯ç‰©ä½“æœªæ‰¾åˆ°ï¼");
+            return;
+        }
+
+        // 4. åŠ è½½æ•°æ® (è¿™æ˜¯é‡ç‚¹ï¼šå¿…é¡»å…ˆè®© CaseManager æ‹¿åˆ°æ–°æ•°æ®)
         CaseData caseToLoad = allCases[currentCaseIndex];
+
+        Debug.Log($"========== [å¼€å§‹åŠ è½½æ¡ˆä»¶ {currentCaseIndex + 1}] ==========");
+        Debug.Log($"åŠ è½½çš„æ•°æ®: {caseToLoad.name}");
+        Debug.Log($"åœºæ™¯ç‰©ä½“: {currentCaseObj.name}");
+        Debug.Log("===============================================");
+
+        // å…ˆæ›´æ–° CaseManager çš„æ•°æ® (æ­¤æ—¶ currentCase å˜æˆ Case_02)
         caseManager.StartCase(caseToLoad, currentCaseObj);
         factionManager.ClearActiveStorylines();
 
+        // 5. æ•°æ®æ›´æ–°å®Œæ¯•åï¼Œå†æ¿€æ´»ç‰©ä½“ï¼
+        // è¿™æ ·æŒ‰é’®é†’æ¥æ—¶ï¼Œçœ‹åˆ°çš„å°±æ˜¯æœ€æ–°çš„ Case_02 æ•°æ®äº†
+        if (currentCaseObj != null)
+        {
+            currentCaseObj.SetActive(true);
+        }
+
         currentState = GameState.CaseBriefing;
-        stage1_Briefing.SetActive(true);
-        stage2_Storyline.SetActive(false);
-        stage3_Judgment.SetActive(false);
+        if (stage1_Briefing) stage1_Briefing.SetActive(true);
+        if (stage2_Storyline) stage2_Storyline.SetActive(false);
+        if (stage3_Judgment) stage3_Judgment.SetActive(false);
 
         StopAllCoroutines();
 
@@ -114,73 +249,50 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.CaseBriefing) return;
         currentState = GameState.StorylinePhase;
-        stage1_Briefing.SetActive(false);
-        stage2_Storyline.SetActive(true);
-        stage3_Judgment.SetActive(false);
+        if (stage1_Briefing) stage1_Briefing.SetActive(false);
+        if (stage2_Storyline) stage2_Storyline.SetActive(true);
+        if (stage3_Judgment) stage3_Judgment.SetActive(false);
     }
 
     public void EnterJudgmentPhase()
     {
         if (currentState != GameState.StorylinePhase) return;
         currentState = GameState.JudgmentPhase;
-        stage1_Briefing.SetActive(false);
-        stage2_Storyline.SetActive(false);
-        stage3_Judgment.SetActive(true);
+        if (stage1_Briefing) stage1_Briefing.SetActive(false);
+        if (stage2_Storyline) stage2_Storyline.SetActive(false);
+        if (stage3_Judgment) stage3_Judgment.SetActive(true);
     }
 
     public void EndCase()
     {
         if (currentState != GameState.JudgmentPhase) return;
         currentState = GameState.CaseWrapUp;
-
         if (chatSystem != null) chatSystem.ClearTransientMessages();
         factionManager.EvaluatePlayerJudgment();
-
         if (ResourceManager.Instance != null) ResourceManager.Instance.AddEnergy(1);
 
+        Debug.Log($"[GameManager] æ¡ˆä»¶ç»“æŸï¼Œå‡†å¤‡åŠ è½½ä¸‹ä¸€ä¸ªæ¡ˆä»¶ (Index: {currentCaseIndex + 1})");
         LoadCase(currentCaseIndex + 1);
     }
 
     void EndGame()
     {
         currentState = GameState.GameEnd;
-        Debug.Log("ËùÓĞ°¸¼şÒÑÉóÀíÍê±Ï£¡");
-        string finalJson = endingManager.GenerateFinalDataForAPI();
-
-        // Òş²ØËùÓĞ Mask ºÍ Case ÎïÌå
-        stage1_Briefing.SetActive(false);
-        stage2_Storyline.SetActive(false);
-        stage3_Judgment.SetActive(false);
-        int lastCaseIndex = allCases.Count - 1;
-        if (lastCaseIndex < caseGameObjects.Count && caseGameObjects[lastCaseIndex] != null)
-            caseGameObjects[lastCaseIndex].SetActive(false);
-
-        // ÏÔÊ¾¼ÓÔØÌáÊ¾
-        if (loadingPanel != null)
-        {
-            loadingPanel.SetActive(true);
-            if (loadingText) loadingText.text = "ÕıÔÚÑİËã×îÖÕ½á¾Ö... (Calculating Final Outcome...)";
-        }
-
-        if (imageGenService != null)
-            imageGenService.GenerateEndingImage(finalJson, OnImageReceived);
-        else
-            Debug.LogError("´íÎó: Í¼ÏñÉú³É·şÎñÎ´Æô¶¯¡£");
-    }
-
-    // ## ĞŞ¸Ä: ½ÓÊÕÊı¾İ²¢Ìø×ª³¡¾° ##
-    private void OnImageReceived(Texture2D generatedImage, List<string> narratives)
-    {
-        Debug.Log("½á¾ÖÉú³ÉÍê±Ï£¬×¼±¸Ìø×ª...");
-
-        // 1. ±£´æÊı¾İµ½¾²Ì¬±äÁ¿£¬ÒÔ±ãĞÂ³¡¾°¶ÁÈ¡
-        FinalImage = generatedImage;
-        FinalTexts = narratives;
-
-        // 2. Òş²Ø¼ÓÔØÃæ°å
-        if (loadingPanel != null) loadingPanel.SetActive(false);
-
-        // 3. Ìø×ªµ½ EndingScene
+        FinalJsonData = endingManager.GenerateFinalDataForAPI();
         SceneManager.LoadScene("EndingScene");
+    }
+}
+
+public static class TransformExtensions
+{
+    public static Transform FindRecursive(this Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name.IndexOf(name, System.StringComparison.OrdinalIgnoreCase) >= 0) return child;
+            Transform result = child.FindRecursive(name);
+            if (result != null) return result;
+        }
+        return null;
     }
 }

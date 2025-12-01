@@ -31,6 +31,9 @@ public class UI_JudgmentButton : MonoBehaviour
 
     private void OnClick()
     {
+        // ## 新增: 播放音效 ##
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayClickSound();
+
         if (caseManager.currentCase != activeCase)
         {
             Debug.LogWarning("按钮的 ActiveCase 与 CaseManager 不匹配!");
@@ -45,9 +48,15 @@ public class UI_JudgmentButton : MonoBehaviour
         }
 
         // 找到对应的 JudgmentChoice 数据
-        JudgmentChoice choiceData = caseManager.currentNode.choices[choiceIndex];
-
-        // 触发 CaseManager
-        caseManager.SelectChoice(choiceData, choiceIndex);
+        if (caseManager.currentNode.choices != null && choiceIndex < caseManager.currentNode.choices.Count)
+        {
+            JudgmentChoice choiceData = caseManager.currentNode.choices[choiceIndex];
+            // 触发 CaseManager
+            caseManager.SelectChoice(choiceData, choiceIndex);
+        }
+        else
+        {
+            Debug.LogError("UI_JudgmentButton: Choice Index 超出范围!");
+        }
     }
 }

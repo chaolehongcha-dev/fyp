@@ -1,8 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 // ####################################################################
-// ## 1. ÅÉÏµ¹ÊÊÂÏß°´Å¥ (ÓÃÓÚ 'blue', 'yellow', 'red')
+// ## 1. æ´¾ç³»æ•…äº‹çº¿æŒ‰é’®
+// ## (V6.2 - æ¸…ç†ç‰ˆ: ç§»é™¤äº†è°ƒè¯•ç”¨çš„å˜è‰²é€»è¾‘)
 // ####################################################################
 [RequireComponent(typeof(Button))]
 public class UI_FactionButton : MonoBehaviour
@@ -10,30 +12,83 @@ public class UI_FactionButton : MonoBehaviour
     private FactionStoryline storyline;
     private FactionManager factionManager;
     private Button button;
+    private Text buttonText; // å¦‚æœä½ éœ€è¦æ§åˆ¶æ–‡å­—é¢œè‰²ï¼Œå¯ä»¥ä¿ç•™è¿™ä¸ª
 
-    // ## ĞÂÔö: ¼ÇÂ¼ÊÇ·ñÒÑ¹ºÂò ##
     private bool isPurchased = false;
+    private bool isSetup = false;
 
     void Awake()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(OnClick);
+        EnsureComponents();
+        // åˆå§‹è®¾ä¸ºä¸å¯äº¤äº’
+        if (button) button.interactable = false;
     }
 
-    // ÓÉ CaseManager ÔÚ StartCase Ê±µ÷ÓÃ
+    void Start()
+    {
+        StartCoroutine(TryRequestSetup());
+    }
+
+    void OnEnable()
+    {
+        if (!isSetup) StartCoroutine(TryRequestSetup());
+        else UpdateInteractableState();
+    }
+
+    // ## æ ¸å¿ƒé€»è¾‘: ä¸»åŠ¨å¯»æ‰¾ CaseManager ##
+    IEnumerator TryRequestSetup()
+    {
+        int retryCount = 0;
+        // å°è¯• 10 æ¬¡ï¼Œæ¯æ¬¡é—´éš” 0.5ç§’
+        while (!isSetup && retryCount < 10)
+        {
+            CaseManager cm = FindObjectOfType<CaseManager>();
+            if (cm != null && cm.currentCase != null)
+            {
+                cm.RequestButtonSetup(this);
+            }
+
+            if (isSetup) yield break;
+
+            retryCount++;
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        if (!isSetup)
+        {
+            Debug.LogError($"UI_FactionButton {gameObject.name}: è¿æ¥å¤±è´¥ (è¶…æ—¶)");
+            // è¿™é‡Œä¸å†å˜è‰²ï¼Œä¿æŒ interactable = false å³å¯
+        }
+    }
+
+    private void EnsureComponents()
+    {
+        if (button == null)
+        {
+            button = GetComponent<Button>();
+            if (button) button.onClick.AddListener(OnClick);
+        }
+
+        // ç§»é™¤äº† btnImage è·å–ï¼Œå› ä¸ºä¸å†éœ€è¦æ‰‹åŠ¨å˜è‰²
+        if (buttonText == null)
+        {
+            buttonText = GetComponentInChildren<Text>();
+        }
+    }
+
     public void Setup(FactionStoryline storylineToLoad, FactionManager manager)
     {
+        EnsureComponents();
         this.storyline = storylineToLoad;
         this.factionManager = manager;
-        this.isPurchased = false; // ÖØÖÃ×´Ì¬
+        this.isPurchased = false;
+        this.isSetup = true;
 
-        // Á¢¼´Ë¢ĞÂÒ»´Î×´Ì¬
         UpdateInteractableState();
     }
 
     void Update()
     {
-        // Ã¿Ö¡¼ì²éÄÜÁ¿×´Ì¬£¬¾ö¶¨°´Å¥ÊÇ·ñ¿Éµã
         UpdateInteractableState();
     }
 
@@ -41,34 +96,46 @@ public class UI_FactionButton : MonoBehaviour
     {
         if (button == null) return;
 
+        // 1. æ£€æŸ¥æ•°æ®è¿æ¥
+        if (storyline == null)
+        {
+            button.interactable = false;
+            return;
+        }
+
+        // 2. æ£€æŸ¥å·²è´­ä¹°
         if (isPurchased)
         {
-            // Èç¹ûÒÑ¾­¹ºÂò£¬ÓÀ¾Ã½ûÓÃ
             button.interactable = false;
+            return;
+        }
+
+        // 3. æ£€æŸ¥èµ„æºç®¡ç†å™¨å’Œèƒ½é‡
+        if (ResourceManager.Instance != null)
+        {
+            bool hasEnergy = ResourceManager.Instance.currentEnergy >= 1;
+            button.interactable = hasEnergy;
+            // æŒ‰é’®å˜ç°æˆ–å˜äº®ç°åœ¨å®Œå…¨ç”± Button ç»„ä»¶çš„ "Disabled Color" æ§åˆ¶
         }
         else
         {
-            // Èç¹ûÎ´¹ºÂò£¬¼ì²éÄÜÁ¿ÊÇ·ñ×ã¹» (ĞèÒª >= 1)
-            // ResourceManager.Instance Ó¦¸ÃÔÚ [MANAGERS] ÉÏ
-            if (ResourceManager.Instance != null)
-            {
-                button.interactable = ResourceManager.Instance.currentEnergy >= 1;
-            }
+            button.interactable = false;
         }
     }
 
     private void OnClick()
     {
+        if (GameManager.Instance != null && GameManager.Instance.CurrentState != GameState.StorylinePhase)
+            return;
+
         if (storyline != null && factionManager != null)
         {
-            // ³¢ÊÔ¹ºÂò
             bool success = factionManager.PurchaseStoryline(storyline);
-
             if (success)
             {
-                // ¹ºÂò³É¹¦£¬±ê¼ÇÎªÒÑ¹ºÂò
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayClickSound();
                 isPurchased = true;
-                button.interactable = false;
+                UpdateInteractableState();
             }
         }
     }

@@ -17,7 +17,9 @@ public class UI_ChatButton : MonoBehaviour
 
     void OnClick()
     {
-        // ## 修复: 移除了 "Block 6:" 语法错误 ##
+        // ## 新增: 播放音效 ##
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayClickSound();
+
         ChatSystem.Instance.SwitchToChat(speakerType);
     }
 }

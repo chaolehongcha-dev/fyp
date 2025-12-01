@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/CourtCG_Scene.unity
+    path: Assets/Scenes/CourtCG_Scene.unity
     guid: 0c669c221e1f1bf4e9cbf5e4750306d9
   - enabled: 1
     path: Assets/Scenes/scene1.unity

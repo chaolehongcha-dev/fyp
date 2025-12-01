@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: f3a1c301f26bc184fbc2430d0c1f706c, type: 3}
   m_Name: Case02_Peace
   m_EditorClassIdentifier: Assembly-CSharp::FactionStoryline
   faction: 3
@@ -17,7 +17,7 @@ MonoBehaviour:
   - sender: 3
     messageContent: "\u5C31\u662F\u8FD9\u4E9B'\u81EA\u7531'\u601D\u60F3\u5BFC\u81F4\u4E86\u65E7\u4E16\u754C\u7684\u6BC1\u706D\uFF01\r\n"
   - sender: 3
-    messageContent: "\u6211\u4EEC\u597D\u4E0D\u5BB9\u6613\u624D\u5EFA\u7ACB\u4E86\u79E9\u5E8F "
+    messageContent: "\u6211\u4EEC\u597D\u4E0D\u5BB9\u6613\u624D\u5EFA\u7ACB\u4E86\u79E9\u5E8F\r\n"
   - sender: 3
     messageContent: "\u4ED6\u5FC5\u987B\u88AB\u5224\u6709\u7F6A\r\n"
   - sender: 3

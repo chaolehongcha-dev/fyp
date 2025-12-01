@@ -20,11 +20,6 @@ public class FactionManager : MonoBehaviour
         caseManager = FindObjectOfType<CaseManager>();
         chatSystem = FindObjectOfType<ChatSystem>();
 
-        if (chatSystem == null)
-        {
-            Debug.LogError("FactionManager: 找不到 ChatSystem!");
-        }
-
         ClearActiveStorylines();
     }
 
@@ -33,35 +28,31 @@ public class FactionManager : MonoBehaviour
         activeStorylines = new List<FactionStoryline>();
     }
 
-    // ## 修改: 返回 bool 类型，指示购买是否成功 ##
     public bool PurchaseStoryline(FactionStoryline storyline)
     {
         if (GameManager.Instance.CurrentState != GameState.StorylinePhase) return false;
 
-        // 检查是否已经购买过 (防止重复购买)
         if (activeStorylines.Contains(storyline))
         {
-            return true; // 已经买过了，视为成功但不扣费
+            return true;
         }
 
         if (resourceManager.SpendEnergy(1))
         {
             activeStorylines.Add(storyline);
 
-            // 通知聊天系统
-            Debug.Log($"购买了 {storyline.faction} 的故事线。");
             if (chatSystem != null)
             {
                 chatSystem.ShowFactionMessages(storyline.chatMessages);
             }
 
             endingManager.RecordStorylinePurchase(storyline.faction);
-            return true; // 购买成功
+            return true;
         }
         else
         {
             Debug.Log("能量不足，无法购买故事线。");
-            return false; // 购买失败
+            return false;
         }
     }
 
