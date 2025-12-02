@@ -15,19 +15,19 @@ MonoBehaviour:
   caseID: Case5
   briefingMessages:
   - sender: 0
-    messageContent: "\u6700\u540E\u4E00\u4E2A\u6848\u5B50\uFF0C\u5BA1\u5224\u5458\r\n"
+    messageContent: The last case, Judge
   - sender: 0
-    messageContent: "\u8FD9\u662F\u6700\u5371\u9669\u7684\u4E00\u4E2A\r\n"
+    messageContent: This is the most dangerous one
   - sender: 0
-    messageContent: "\u4F60\u4E4B\u524D\u79EF\u7D2F\u7684\u6240\u6709\u5F71\u54CD\u529B\r\n"
+    messageContent: All the influence you accumulated before
   - sender: 0
-    messageContent: "\u4EE5\u53CA\u4F60\u5BF9\u6C11\u5FC3\u7684\u638C\u63A7\r\n"
+    messageContent: And your control over the people's hearts
   - sender: 0
-    messageContent: "\u90FD\u5C06\u5728\u6B64\u523B\u53D7\u5230\u6700\u7EC8\u8003\u9A8C\r\n"
+    messageContent: Will all be put to the final test at this moment
   - sender: 0
-    messageContent: "\u6211\u6709\u9884\u611F\u2026\r\n"
+    messageContent: I have a premonition...
   - sender: 0
-    messageContent: "\u6709\u5927\u4E8B\u60C5\u8981\u53D1\u751F\u4E86\u2026\r\n"
+    messageContent: Something big is about to happen...
   judgmentTreeRoot:
     stageDescription: shenfen
     choices:

@@ -15,13 +15,13 @@ MonoBehaviour:
   faction: 1
   chatMessages:
   - sender: 1
-    messageContent: "\u5BA1\u5224\u5458\uFF0C\u4ED6\u7684\u786E\u662F\u4E2A\u82F1\u96C4\uFF0C\u503C\u5F97\u5609\u5956\r\n"
+    messageContent: Judge, he is indeed a hero, worthy of praise
   - sender: 1
-    messageContent: "\u4F46\u5728\u8D44\u6E90\u8017\u5C3D\u65F6\uFF0C\u5FC5\u987B\u6709\u4EBA\u505A\u51FA\u8270\u96BE\u7684\u51B3\u5B9A\r\n"
+    messageContent: But when resources run out, someone must make difficult decisions
   - sender: 1
-    messageContent: "\u4EE5\u786E\u4FDD\u6587\u660E\u7684\u5EF6\u7EED\r\n"
+    messageContent: To ensure the continuation of civilization
   - sender: 1
-    messageContent: "\u6240\u4EE5\uFF0C'\u51C0\u5316\u534F\u8BAE'\u5FC5\u987B\u5F97\u5230\u7EF4\u62A4"
+    messageContent: Therefore, the 'Purification Protocol' must be maintained
   requirement:
     requiredChoiceIndices: 000000000000000000000000
   evaluationSuccessMessages: []

@@ -83,7 +83,7 @@ public class ChatSystem : MonoBehaviour
 
         if (speaker == ChatSpeaker.None)
         {
-            if (topNameText) topNameText.text = "系统待机";
+            if (topNameText) topNameText.text = "SYSTEM IDLE";
             foreach (Transform child in contentParent) Destroy(child.gameObject);
             return;
         }
@@ -230,11 +230,11 @@ public class ChatSystem : MonoBehaviour
     {
         switch (speaker)
         {
-            case ChatSpeaker.Truth: return "真理部部长";
-            case ChatSpeaker.Order: return "秩序部 (精英)";
-            case ChatSpeaker.Love: return "友爱部 (民众)";
-            case ChatSpeaker.Peace: return "和平部 (军队)";
-            case ChatSpeaker.None: return "系统待机";
+            case ChatSpeaker.Truth: return "Minister of Truth";
+            case ChatSpeaker.Order: return "Order Ministry(Elite)";
+            case ChatSpeaker.Love: return "Friendship Ministry(Populace)";
+            case ChatSpeaker.Peace: return "Peace Ministry(Army)";
+            case ChatSpeaker.None: return "SYSTEM IDLE";
             default: return "???";
         }
     }

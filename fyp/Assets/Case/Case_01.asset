@@ -15,21 +15,24 @@ MonoBehaviour:
   caseID: Case1
   briefingMessages:
   - sender: 0
-    messageContent: "\u6B22\u8FCE\u6765\u5230\u771F\u7406\u90E8\u3002\r"
+    messageContent: "Welcome to the Ministry of Truth.\u3002\r"
   - sender: 0
-    messageContent: "\u4F60\u9762\u524D\u662F\u5224\u6848\u7CFB\u7EDF\u548C\u804A\u5929\u7CFB\u7EDF\u3002\r\n"
+    messageContent: Before you are the Judgment System and the Chat System.
   - sender: 0
-    messageContent: "\u5224\u6848\u7CFB\u7EDF\u662F\u4F60\u7684\u5DE5\u5177\u3002\r\n"
+    messageContent: The Judgment System is your tool.
   - sender: 0
-    messageContent: "\u4F60\u53EF\u4EE5\u82B1\u8D39\u80FD\u91CF\uFF0C\u5728\u5224\u6848\u7CFB\u7EDF\u89E3\u9501\u79E9\u5E8F\u90E8\u3001\u53CB\u7231\u90E8\u6216\u548C\u5E73\u90E8\u7684'\u89C2\u70B9'\u3002 "
+    messageContent: You can spend Energy to unlock the 'Opinions' of the Ministry
+      of Order, Friendship, or Peace in the Judgment System.
   - sender: 0
-    messageContent: "\u4ED6\u4EEC\u4F1A\u660E\u786E\u544A\u8BC9\u4F60\u5E0C\u671B\u7684\u5224\u51B3\u7ED3\u679C\u3002 "
+    messageContent: They will explicitly tell you their desired verdict result.
   - sender: 0
-    messageContent: "\u5982\u679C\u4F60\u542C\u4ECE\u4E86\u4ED6\u4EEC\u7684\u8981\u6C42\uFF0C\u4ED6\u4EEC\u7684\u5F71\u54CD\u529B\u4F1A\u589E\u5F3A\u3002 "
+    messageContent: If you listen to their demands, their influence will increase.
   - sender: 0
-    messageContent: "\u4F46\u5982\u679C\u4F60\u53CD\u5176\u9053\u800C\u884C\u4E4B\uFF0C\u4ED6\u4EEC\u7684\u5F71\u54CD\u529B\u5C06\u53D7\u5230\u524A\u5F31\u3002\r\n"
+    messageContent: But if you do the opposite, their influence will be weakened.
   - sender: 0
-    messageContent: "\u73B0\u5728\uFF0C\u5F00\u59CB\u4F60\u7684\u7B2C\u4E00\u4E2A\u6848\u5B50\u5427\u3002\r\n"
+    messageContent: 'Now, begin your first case.
+
+'
   judgmentTreeRoot:
     stageDescription: dengdaipanjue
     choices:

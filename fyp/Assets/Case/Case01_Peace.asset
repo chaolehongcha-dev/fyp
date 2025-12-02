@@ -15,26 +15,27 @@ MonoBehaviour:
   faction: 3
   chatMessages:
   - sender: 3
-    messageContent: "\u5BA1\u5224\u5458\u3002\u80FD\u6E90\u5854\u662F\u4EBA\u7C7B\u552F\u4E00\u7684\u5C4F\u969C\u3002\r\n"
+    messageContent: Judge. The Energy Tower is humanity's only barrier.
   - sender: 3
-    messageContent: "\u4EFB\u4F55\u5BF9\u5B83\u7684\u5A01\u80C1\u90FD\u7B49\u540C\u4E8E\u8C0B\u6740\u6240\u6709\u4EBA\u3002\r\n"
+    messageContent: Any threat to it is tantamount to murdering everyone.
   - sender: 3
-    messageContent: "\u52A8\u673A\uFF1F\u52A8\u673A\u65E0\u5173\u7D27\u8981\u3002\r\n"
+    messageContent: Motive? Motive is irrelevant.
   - sender: 3
-    messageContent: "\u5FC5\u987B\u5224\u5904\u6709\u7F6A\uFF0C\u5E76\u5C06\u5176\u5B9A\u6027\u4E3A\u5371\u5BB3\u516C\u5171\u3002\r\n"
+    messageContent: She must be found guilty and classified as a public hazard.
   - sender: 3
-    messageContent: "\u81F3\u4E8E\u5211\u7F5A\u3002\r\n"
+    messageContent: As for the punishment.
   - sender: 3
-    messageContent: "\u6D41\u653E\u662F\u552F\u4E00\u7684\u7B54\u6848\uFF0C\u6211\u4EEC\u9700\u8981\u5A01\u6151\u529B\u3002\r\n"
+    messageContent: Exile is the only answer, we need a deterrent.
   requirement:
     requiredChoiceIndices: 000000000100000001000000
   evaluationSuccessMessages:
   - sender: 3
-    messageContent: "\u5C31\u662F\u8981\u8FD9\u6837\uFF01\r\n"
+    messageContent: That's the way!
   - sender: 3
-    messageContent: "\u4EFB\u4F55\u4EBA\u90FD\u4E0D\u80FD\u5A01\u80C1\u80FD\u6E90\u5854\u3002\r\n"
+    messageContent: No one can threaten the Energy Tower.
   evaluationFailureMessages:
   - sender: 3
-    messageContent: "\u4F60\u7684\u5224\u51B3\u592A\u8F6F\u5F31\u4E86\uFF01\r\n"
+    messageContent: Your verdict is too weak!
   - sender: 3
-    messageContent: "\u8FD9\u79CD\u4EBA\u7559\u5728\u5854\u5185\uFF0C\u53EA\u4F1A\u662F\u4E0B\u4E00\u4E2A\u5A01\u80C1\uFF01\r\n"
+    messageContent: Keeping this kind of person in the Tower will only be the next
+      threat!

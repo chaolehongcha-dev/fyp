@@ -15,17 +15,20 @@ MonoBehaviour:
   caseID: Case3
   briefingMessages:
   - sender: 0
-    messageContent: "\u5BA1\u5224\u5458\uFF0C\u65B0\u6848\u5B50\r\n"
+    messageContent: Judge, new case
   - sender: 0
-    messageContent: "\u8FD9\u6B21\u7684\u51B2\u7A81\u70B9\u5728\u4E8E\u8D44\u6E90\r\n"
+    messageContent: The conflict point this time is resources
   - sender: 0
-    messageContent: "\u662F\u4F18\u5148\u6EE1\u8DB3\u79E9\u5E8F\u90E8\u7CBE\u82F1\u7684'\u672A\u6765\u53EF\u80FD'\r\n"
+    messageContent: Is it to prioritize satisfying the 'future possibilities' of
+      the Ministry of Order elites
   - sender: 0
-    messageContent: "\u8FD8\u662F\u4F18\u5148\u6EE1\u8DB3\u53CB\u7231\u90E8\u6C11\u4F17\u7684'\u5F53\u4E0B\u751F\u5B58'\uFF1F\r\n"
+    messageContent: Or prioritize satisfying the 'present survival' of the Ministry
+      of Friendship populace?
   - sender: 0
-    messageContent: "\u548C\u5E73\u90E8\u8FD9\u6B21\u4F3C\u4E4E\u662F\u4E2D\u7ACB\u7684\r\n"
+    messageContent: The Ministry of Peace seems neutral this time
   - sender: 0
-    messageContent: "\u8FD9\u662F\u4E00\u4E2A\u5229\u7528\u4ED6\u4EEC\u6765\u5236\u8861\u53E6\u5916\u4E24\u6D3E\u7684\u597D\u673A\u4F1A\r\n"
+    messageContent: This is a good opportunity to use them to check the other two
+      factions
   judgmentTreeRoot:
     stageDescription: dengdaipanjue
     choices:

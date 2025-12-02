@@ -15,24 +15,25 @@ MonoBehaviour:
   faction: 1
   chatMessages:
   - sender: 1
-    messageContent: "\u5982\u679C\u6211\u4EEC\u7684\u773C\u5149\u53EA\u505C\u7559\u5728\u4ECA\u5929\u7684\u914D\u7ED9\r\n"
+    messageContent: If our vision stops at today's rations
   - sender: 1
-    messageContent: "\u90A3\u4EBA\u7C7B\u660E\u5929\u5C31\u4F1A\u706D\u7EDD\r\n"
+    messageContent: Then humanity will go extinct tomorrow
   - sender: 1
-    messageContent: "\u6211\u4EEC\u8981\u6C42\u5224\u4ED6\u65E0\u7F6A\r\n"
+    messageContent: We request he be found not guilty
   - sender: 1
-    messageContent: "\u81F3\u4E8E\u90A3\u4E9B\u6C34\uFF0C\u53EF\u4EE5\u91CD\u65B0\u5206\u914D\n"
+    messageContent: As for that water, it can be reallocated
   - sender: 1
-    messageContent: "\u4F46\u7814\u7A76\u5FC5\u987B\u7EE7\u7EED\r\n"
+    messageContent: But the research must continue
   requirement:
     requiredChoiceIndices: 0100000001000000
   evaluationSuccessMessages:
   - sender: 1
-    messageContent: "\u7406\u6027\u7684\u9009\u62E9\r\n"
+    messageContent: A rational choice
   - sender: 1
-    messageContent: "\u4F60\u7406\u89E3\u4E86\u77ED\u671F\u727A\u7272\u5BF9\u957F\u8FDC\u5229\u76CA\u7684\u91CD\u8981\u6027\r\n"
+    messageContent: You understood the importance of short-term sacrifice for long-term
+      benefits
   evaluationFailureMessages:
   - sender: 1
-    messageContent: "\u4F60\u88AB\u77ED\u89C6\u7684\u6C11\u7CB9\u4E3B\u4E49\u7ED1\u67B6\u4E86\r\n"
+    messageContent: You have been hijacked by short-sighted populism
   - sender: 1
-    messageContent: "\u4F60\u521A\u521A\u53EF\u80FD\u627C\u6740\u4E86\u6211\u4EEC\u89E3\u51B3\u9965\u8352\u7684\u552F\u4E00\u673A\u4F1A\r\n"
+    messageContent: You may have just killed our only chance to solve the famine

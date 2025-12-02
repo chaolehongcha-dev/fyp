@@ -15,20 +15,20 @@ MonoBehaviour:
   faction: 3
   chatMessages:
   - sender: 3
-    messageContent: "\u6211\u4EEC\u4E0D\u7BA1\u4ED6\u662F\u4E3A\u4E86\u7814\u7A76\u8FD8\u662F\u4E3A\u4E86\u79C1\u6B32\r\n"
+    messageContent: We don't care if it's for research or for selfish desire
   - sender: 3
-    messageContent: "\u91CD\u70B9\u662F\uFF0C\u4ED6\u672A\u7ECF\u8BB8\u53EF\u8C03\u52A8\u4E86\u6218\u7565\u8D44\u6E90\r\n"
+    messageContent: The point is, he mobilized strategic resources without permission
   - sender: 3
-    messageContent: "\u5224\u5904\u6709\u7F6A\uFF0C\u7136\u540E\u7269\u8D44\u5145\u516C\u5B9E\u9A8C\u5BA4\r\n"
+    messageContent: Find guilty, then confiscate all the materials
   requirement:
     requiredChoiceIndices: 0000000000000000
   evaluationSuccessMessages:
   - sender: 3
-    messageContent: "\u7A0B\u5E8F\u5C31\u662F\u4E00\u5207\r\n"
+    messageContent: Protocol is everything
   - sender: 3
-    messageContent: "\u7EF4\u62A4\u4E86\u4E2D\u592E\u7BA1\u5236\u7684\u6743\u5A01\uFF0C\u5F88\u597D\r\n"
+    messageContent: Upheld the authority of central control, very good
   evaluationFailureMessages:
   - sender: 3
-    messageContent: "\u5224\u4ED6\u65E0\u7F6A\uFF1F\r\n"
+    messageContent: Found him not guilty?
   - sender: 3
-    messageContent: "\u4F60\u8FD9\u662F\u5728\u9F13\u52B1\u65E0\u653F\u5E9C\u4E3B\u4E49\uFF01\r\n"
+    messageContent: You are encouraging anarchism!

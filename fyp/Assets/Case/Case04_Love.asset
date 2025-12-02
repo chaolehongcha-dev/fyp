@@ -15,22 +15,22 @@ MonoBehaviour:
   faction: 2
   chatMessages:
   - sender: 2
-    messageContent: "\u548C\u5E73\u90E8\u7684\u58EB\u5175\u8D8A\u6765\u8D8A\u7C97\u66B4\u4E86\uFF01\r\n"
+    messageContent: The Ministry of Peace soldiers are getting rougher!
   - sender: 2
-    messageContent: "\u5982\u679C\u8FDE\u753B\u5E45\u753B\u90FD\u8981\u88AB\u5BA1\u5224\r\n"
+    messageContent: If even painting a picture has to be judged
   - sender: 2
-    messageContent: "\u90A3\u6211\u4EEC\u548C\u5974\u96B6\u6709\u4EC0\u4E48\u533A\u522B\uFF1F\r\n"
+    messageContent: Then what is the difference between us and slaves?
   - sender: 2
-    messageContent: "\u5FC5\u987B\u5224\u5904\u65E0\u7F6A\r\n"
+    messageContent: Must be found not guilty
   requirement:
     requiredChoiceIndices: 01000000
   evaluationSuccessMessages:
   - sender: 2
-    messageContent: "\u4F60\u505A\u51FA\u4E86\u52C7\u6562\u7684\u5224\u51B3\r\n"
+    messageContent: You made a brave verdict
   - sender: 2
-    messageContent: "\u53CB\u7231\u90E8\u611F\u8C22\u4F60\r\n"
+    messageContent: The Ministry of Friendship thanks you
   evaluationFailureMessages:
   - sender: 2
-    messageContent: "\u4F60\u5C45\u7136\u5224\u4E00\u4E2A\u827A\u672F\u5BB6\u6709\u7F6A\u2026\r\n"
+    messageContent: You actually found an artist guilty...
   - sender: 2
-    messageContent: "\u548C\u5E73\u90E8\u7684\u8D70\u72D7\uFF01\r\n"
+    messageContent: Ministry of Peace running dog!
