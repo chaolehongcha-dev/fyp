@@ -16,7 +16,7 @@ public class ImageGenerationService : MonoBehaviour
     public static ImageGenerationService Instance { get; private set; }
 
     // ## 请填入你的 API Key ##
-    private const string apiKey = "AIzaSyD9TU-JgE9Tcjmkmo3c-lJoA0AktuT_dTY"; // ⚠️ 记得填回你的 Key
+    private const string apiKey = ""; // ⚠️ 记得填回你的 Key
     private const string apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=";
 
     [System.Serializable]
