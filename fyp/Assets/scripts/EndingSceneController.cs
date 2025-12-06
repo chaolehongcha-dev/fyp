@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,115 +6,117 @@ using UnityEngine.SceneManagement;
 
 public class EndingSceneController : MonoBehaviour
 {
-    [Header("UI ×é¼ş")]
-    public Text storyText;       // ÏÔÊ¾ĞğÊÂÎÄ×Ö
-    public RawImage finalImage;  // ÏÔÊ¾Éú³ÉµÄÍ¼Æ¬
+    [Header("UI ç»„ä»¶")]
+    public Text storyText;        // æ˜¾ç¤ºå™äº‹æ–‡å­—
+    public RawImage finalImage;   // æ˜¾ç¤ºç”Ÿæˆçš„å›¾ç‰‡ (è¯·åœ¨ Inspector æŒ‚å¥½é»˜è®¤å›ºå®šç»“å±€å›¾)
 
-    [Header("¼ÓÔØ½çÃæ")]
-    public GameObject loadingPanel; // °üº¬ "Generating..." ÎÄ±¾µÄÃæ°å
-    public Text loadingText;        // "ÕıÔÚÉú³É..." ÎÄ±¾×é¼ş
+    [Header("åŠ è½½ç•Œé¢")]
+    public GameObject loadingPanel;
+    public Text loadingText;
 
-    [Header("½á¾ÖĞÅÏ¢ UI (×îºó²ÅÏÔÊ¾)")]
-    public GameObject finalInfoPanel; // °üº¬ Ending ID ºÍ Replay °´Å¥µÄÃæ°å
-    public Text endingIdText;         // "Ending 15/105"
-    public Button replayButton;       // ÖØÍæ°´Å¥
+    [Header("ç»“å±€ä¿¡æ¯ UI (æœ€åæ‰æ˜¾ç¤º)")]
+    public GameObject finalInfoPanel;
+    public Text endingIdText;
+    public Button replayButton;
 
     public float fadeDuration = 1.0f;
 
+    // å†…éƒ¨å˜é‡
     private List<string> textsToShow;
-    private Texture2D imageToShow;
+    private Texture2D aiGeneratedTexture; // å­˜å‚¨ AI ç”Ÿæˆçš„å›¾
+    private Texture fixedTexture;         // å­˜å‚¨ Inspector é‡ŒåŸæœ¬æŒ‚çš„å›ºå®šå›¾
     private int clickCount = 0;
     private bool isFading = false;
     private bool isDataReady = false;
 
     void Start()
     {
-        // 1. ³õÊ¼»¯ UI ×´Ì¬ (È·±£Ò»¿ªÊ¼ÊÇ¶ÔµÄ)
-
-        // A. Loading ½çÃæ£ºÒ»¿ªÊ¼¾ÍÏÔÊ¾
+        // 1. åˆå§‹åŒ– UI
         if (loadingPanel != null) loadingPanel.SetActive(true);
-
-        // B. ĞÅÏ¢Ãæ°å (Replay/ID)£ºÒ»¿ªÊ¼Òş²Ø£¬×îºó²Å³öÀ´
         if (finalInfoPanel != null) finalInfoPanel.SetActive(false);
 
-        // C. Í¼Æ¬£º³õÊ¼È«ºÚ/Í¸Ã÷
+        // å¤‡ä»½ Inspector é‡ŒæŒ‚çš„å›ºå®šå›¾
         if (finalImage != null)
         {
-            finalImage.color = Color.black;
+            fixedTexture = finalImage.texture;
+            finalImage.color = Color.black; // åˆå§‹å…¨é»‘
             SetAlpha(finalImage, 0f);
         }
 
-        // D. ¹ÊÊÂÎÄ±¾£º³õÊ¼Çå¿Õ
         if (storyText != null)
         {
             storyText.text = "";
             SetAlpha(storyText, 0f);
         }
 
-        // E. °ó¶¨°´Å¥ÊÂ¼ş
         if (replayButton != null)
         {
-            replayButton.onClick.RemoveAllListeners(); // ·ÀÖ¹ÖØ¸´°ó¶¨
+            replayButton.onClick.RemoveAllListeners();
             replayButton.onClick.AddListener(OnReplayClicked);
         }
 
-        // 2. ¿ªÊ¼»ñÈ¡Êı¾İºÍÉú³É
+        // 2. å¼€å§‹è¯·æ±‚æ•°æ®
         if (GameManager.Instance != null && !string.IsNullOrEmpty(GameManager.FinalJsonData))
         {
             string jsonData = GameManager.FinalJsonData;
 
-            // ¼ÆËã²¢ÉèÖÃ½á¾Ö ID (ËäÈ»ÏÖÔÚ²»ÏÔÊ¾£¬µ«ÏÈÌîºÃÄÚÈİ)
             if (ImageGenerationService.Instance != null)
             {
                 int id = ImageGenerationService.Instance.CalculateEndingID(jsonData);
                 if (endingIdText != null) endingIdText.text = $"ENDING {id}/105";
 
-                // ÇëÇóÉú³É
-                if (loadingText) loadingText.text = "Ending Generating...";
+                if (loadingText) loadingText.text = "Computing Destiny...";
+                // è¯·æ±‚ AI ç”Ÿæˆ (åŒ…æ‹¬æ–‡å­—å’Œå›¾ç‰‡)
                 ImageGenerationService.Instance.GenerateEndingImage(jsonData, OnGenerationComplete);
-            }
-            else
-            {
-                Debug.LogError("Error: ImageGenerationService ÊµÀı¶ªÊ§");
             }
         }
         else
         {
-            Debug.LogError("EndingScene: È±ÉÙ½á¾ÖÊı¾İ£¡(Ö±½ÓÔËĞĞÁË´Ë³¡¾°£¿)");
-            if (loadingText) loadingText.text = "Error: No Data.";
-            // ²âÊÔÄ£Ê½£º3ÃëºóÄ£ÄâÍê³É
             StartCoroutine(SimulateFakeGeneration());
         }
     }
 
-    // Ä£Äâ²âÊÔ (½öÓÃÓÚµ÷ÊÔ)
     IEnumerator SimulateFakeGeneration()
     {
-        yield return new WaitForSeconds(2.0f);
-        OnGenerationComplete(null, new List<string> { "Test Narrative 1", "Test Narrative 2", "Test Narrative 3" });
+        yield return new WaitForSeconds(1.0f);
+        OnGenerationComplete(null, new List<string> { "Test Narrative 1", "Test Narrative 2" });
     }
 
-    // »Øµ÷£ºµ±Í¼Æ¬ºÍÎÄ±¾×¼±¸ºÃÊ±
+    // å›è°ƒï¼šæ•°æ®å‡†å¤‡å®Œæ¯•
     private void OnGenerationComplete(Texture2D texture, List<string> narratives)
     {
-        imageToShow = texture;
-        textsToShow = narratives;
+        if (this == null || gameObject == null) return;
+
+        aiGeneratedTexture = texture;
+
+        // ----------------------------------------------------
+        // âœ… æ ¸å¿ƒä¿®æ”¹ï¼šæ‰‹åŠ¨æ·»åŠ ç¬¬ 4 æ®µè¿‡æ¸¡æ–‡æœ¬
+        // ----------------------------------------------------
+        textsToShow = new List<string>();
+        if (narratives != null) textsToShow.AddRange(narratives); // å…ˆåŠ å…¥ AI ç”Ÿæˆçš„å‰3æ®µ
+
+        // åœ¨æœ€åè¿½åŠ è¿™ä¸€å¥
+        textsToShow.Add("ä¸‹é¢å°†é¦–å…ˆå±•ç¤ºå›ºå®šç»“å±€ï¼Œç„¶åå±•ç¤ºaiç”Ÿæˆç»“å±€");
+        // ----------------------------------------------------
+
         isDataReady = true;
 
-        // ## ¹Ø¼üÊ±¿Ì 1: ¿ªÊ¼·ÅÎÄ±¾Ê±£¬Loading ÏûÊ§ ##
         if (loadingPanel != null) loadingPanel.SetActive(false);
 
-        // ¿ªÊ¼ÏÔÊ¾µÚÒ»¶Î»°
-        if (textsToShow != null && textsToShow.Count > 0)
+        // æµç¨‹å¼€å§‹ï¼šå…ˆæ˜¾ç¤ºç¬¬ä¸€æ®µæ–‡å­— (å›¾ç‰‡æ­¤æ—¶è¿˜æ˜¯é»‘çš„)
+        if (textsToShow.Count > 0)
         {
             StartCoroutine(FadeTextIn(textsToShow[0]));
             clickCount = 1;
+        }
+        else
+        {
+            StartCoroutine(ShowEndingVisualsSequence());
         }
     }
 
     void Update()
     {
-        // Ö»ÓĞÊı¾İ×¼±¸ºÃÁË£¬ÇÒ²»ÔÚµ­Èëµ­³öÖĞ£¬²ÅÏìÓ¦µã»÷
         if (isDataReady && Input.GetMouseButtonDown(0) && !isFading)
         {
             HandleClick();
@@ -123,30 +125,67 @@ public class EndingSceneController : MonoBehaviour
 
     private void HandleClick()
     {
-        // Âß¼­£ºText 1 -> Text 2 -> Text 3 -> Í¼Æ¬ + UI
+        // 1. å¦‚æœè¿˜æœ‰ä¸‹ä¸€æ®µæ–‡å­—ï¼ˆåŒ…æ‹¬æœ€åé‚£å¥æç¤ºï¼‰ï¼Œåˆ‡æ¢åˆ°ä¸‹ä¸€æ®µ
         if (clickCount < textsToShow.Count)
         {
-            // ÇĞ»»ÏÂÒ»¶ÎÎÄ×Ö
             StartCoroutine(SwitchText(textsToShow[clickCount]));
             clickCount++;
         }
+        // 2. æ­¤æ—¶å±å¹•ä¸Šæ­£æ˜¾ç¤ºç€æœ€åä¸€æ®µæ–‡å­— ("ä¸‹é¢å°†é¦–å…ˆå±•ç¤º...")
+        //    å†æ¬¡ç‚¹å‡»åï¼Œæ‰è¿›å…¥å›¾ç‰‡å±•ç¤ºæµç¨‹
         else if (clickCount == textsToShow.Count)
         {
-            // ÎÄ×Ö·ÅÍêÁË£¬ÏÔÊ¾×îÖÕÍ¼Æ¬ºÍ UI
-            StartCoroutine(ShowFinalImageAndUI());
-            clickCount++;
+            StartCoroutine(ShowEndingVisualsSequence());
+            clickCount++; // é˜²æ­¢é‡å¤è§¦å‘
         }
     }
 
-    // --- Ğ­³Ì ---
+    // --- æ ¸å¿ƒæµç¨‹ï¼šæ–‡å­—ç»“æŸ -> å›ºå®šå›¾ -> AIå›¾ ---
+    IEnumerator ShowEndingVisualsSequence()
+    {
+        isFading = true;
+
+        // 1. æ·¡å‡ºæœ€åä¸€æ®µæ–‡å­— (å³é‚£å¥æç¤ºè¯­)
+        yield return StartCoroutine(FadeAlpha(storyText, 1f, 0f));
+
+        // 2. æ˜¾ç¤ºå›ºå®šå›¾ç‰‡ (Base Ending)
+        if (finalImage != null && fixedTexture != null)
+        {
+            finalImage.texture = fixedTexture; // ç¡®ä¿æ˜¯å›ºå®šå›¾
+            finalImage.color = new Color(1, 1, 1, 0); // å‡†å¤‡æ·¡å…¥
+
+            // æ·¡å…¥å›ºå®šå›¾
+            yield return StartCoroutine(FadeAlpha(finalImage, 0f, 1f));
+        }
+
+        // 3. åœç•™å±•ç¤ºå›ºå®šå›¾ (2ç§’)
+        yield return new WaitForSeconds(2.0f);
+
+        // 4. å¦‚æœæœ‰ AI å›¾ç‰‡ï¼Œæ·¡å…¥ AI å›¾ç‰‡ (AI Ending)
+        if (aiGeneratedTexture != null && finalImage != null)
+        {
+            // æ·¡å‡ºå›ºå®šå›¾ -> æ¢å›¾ -> æ·¡å…¥ AI å›¾
+            yield return StartCoroutine(FadeAlpha(finalImage, 1f, 0f));
+            finalImage.texture = aiGeneratedTexture;
+            yield return StartCoroutine(FadeAlpha(finalImage, 0f, 1f));
+        }
+
+        // 5. æœ€åæ˜¾ç¤º UI é¢æ¿
+        if (finalInfoPanel != null)
+        {
+            finalInfoPanel.SetActive(true);
+        }
+
+        isFading = false;
+    }
+
+    // --- è¾…åŠ©åç¨‹ ---
 
     IEnumerator SwitchText(string newContent)
     {
         isFading = true;
-        // µ­³ö¾É×Ö
         yield return StartCoroutine(FadeAlpha(storyText, 1f, 0f));
         storyText.text = newContent;
-        // µ­ÈëĞÂ×Ö
         yield return StartCoroutine(FadeAlpha(storyText, 0f, 1f));
         isFading = false;
     }
@@ -155,35 +194,7 @@ public class EndingSceneController : MonoBehaviour
     {
         isFading = true;
         storyText.text = content;
-        // µ­ÈëµÚÒ»¶Î
         yield return StartCoroutine(FadeAlpha(storyText, 0f, 1f));
-        isFading = false;
-    }
-
-    IEnumerator ShowFinalImageAndUI()
-    {
-        isFading = true;
-        // 1. µ­³ö×îºóÒ»¶ÎÎÄ×Ö
-        yield return StartCoroutine(FadeAlpha(storyText, 1f, 0f));
-
-        // 2. µ­Èë×îÖÕÍ¼Æ¬
-        if (finalImage != null)
-        {
-            if (imageToShow != null)
-            {
-                finalImage.texture = imageToShow;
-                finalImage.color = Color.white;
-            }
-            // Í¼Æ¬µ­Èë
-            yield return StartCoroutine(FadeAlpha(finalImage, 0f, 1f));
-        }
-
-        // ## ¹Ø¼üÊ±¿Ì 2: Í¼Æ¬³öÀ´ºó£¬ÏÔÊ¾ Ending ID ºÍ Replay °´Å¥ ##
-        if (finalInfoPanel != null)
-        {
-            finalInfoPanel.SetActive(true);
-        }
-
         isFading = false;
     }
 
@@ -213,14 +224,13 @@ public class EndingSceneController : MonoBehaviour
 
     private void OnReplayClicked()
     {
-        Debug.Log("ÖØÍæÓÎÏ·...");
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ResetGame();
         }
         else
         {
-            SceneManager.LoadScene("scene1");
+            SceneManager.LoadScene(0);
         }
     }
 }

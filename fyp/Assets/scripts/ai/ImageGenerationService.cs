@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using System.Text;
@@ -6,12 +6,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+// ####################################################################
+// ## AI ç»“å±€ç”ŸæˆæœåŠ¡ (V3.0 - æ¢å¤ç”Ÿå›¾ API ç‰ˆ)
+// ## 1. æ¢å¤ Google Imagen API è°ƒç”¨
+// ## 2. ä¿ç•™â€œå•ä¾‹è¦†ç›–â€ä¿®å¤ï¼Œç¡®ä¿ Build åæ­£å¸¸
+// ####################################################################
 public class ImageGenerationService : MonoBehaviour
 {
     public static ImageGenerationService Instance { get; private set; }
 
-    // ## ÇëÌîÈëÄãµÄ API Key ##
-    private const string apiKey = "";
+    // ## è¯·å¡«å…¥ä½ çš„ API Key ##
+    private const string apiKey = "AIzaSyD9TU-JgE9Tcjmkmo3c-lJoA0AktuT_dTY"; // âš ï¸ è®°å¾—å¡«å›ä½ çš„ Key
     private const string apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=";
 
     [System.Serializable]
@@ -27,24 +32,21 @@ public class ImageGenerationService : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
+        // æ ¸å¿ƒä¿®å¤ï¼šå•ä¾‹è¦†ç›–æ¨¡å¼ (Singleton Override)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(Instance.gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
-    // ¹«¿ª·½·¨£ºÉú³É½á¾Ö (·µ»Ø Í¼Æ¬ + Èı¶ÎÎÄ×Ö)
+    // å…¬å¼€æ–¹æ³•ï¼šç”Ÿæˆç»“å±€ (å›¾ç‰‡ + æ–‡å­—)
     public void GenerateEndingImage(string gameDataJson, Action<Texture2D, List<string>> onComplete)
     {
         StartCoroutine(RequestImageCoroutine(gameDataJson, onComplete));
     }
 
-    // ¹«¿ª·½·¨£º¼ÆËã½á¾Ö ID (1-105)
+    // å…¬å¼€æ–¹æ³•ï¼šè®¡ç®—ç»“å±€ ID
     public int CalculateEndingID(string gameDataJson)
     {
         GameEndingData data = JsonUtility.FromJson<GameEndingData>(gameDataJson);
@@ -54,16 +56,16 @@ public class ImageGenerationService : MonoBehaviour
         int scorePeace = GetScore(data, "Peace");
         int maxScore = Mathf.Max(scoreOrder, scoreLove, scorePeace);
 
-        // 1. ·ÕÎ§²ã (3ÖÖ: 0, 1, 2)
+        // 1. æ°›å›´å±‚
         int layer1 = 0;
-        if (opinion > -2) layer1 = 0;
-        else if (opinion == -2) layer1 = 1;
+        if (opinion > -1) layer1 = 0;
+        else if (opinion == -1) layer1 = 1;
         else layer1 = 2;
 
-        // 2. Í³ÖÎ²ã (5ÖÖ: 0, 1, 2, 3, 4)
+        // 2. ç»Ÿæ²»å±‚
         int layer2 = 0;
-        if (opinion >= -1 && maxScore < 2) layer2 = 0;
-        else if (maxScore >= 3)
+        if (opinion >= -1 && maxScore < 1) layer2 = 0;
+        else if (maxScore >= 2)
         {
             if (scorePeace == maxScore) layer2 = 1;
             else if (scoreOrder == maxScore) layer2 = 2;
@@ -71,23 +73,22 @@ public class ImageGenerationService : MonoBehaviour
         }
         else layer2 = 4;
 
-        // 3. ³åÍ»²ã (7ÖÖ: 0-6)
+        // 3. å†²çªå±‚
         int layer3 = 0;
-        if ((scorePeace - scoreOrder) > 4) layer3 = 1;
-        else if ((scoreOrder - scorePeace) > 4) layer3 = 2;
-        else if ((scorePeace - scoreLove) > 4) layer3 = 3;
-        else if ((scoreLove - scorePeace) > 4) layer3 = 4;
-        else if ((scoreLove - scoreOrder) > 4) layer3 = 5;
-        else if ((scoreOrder - scoreLove) > 4) layer3 = 6;
+        if ((scorePeace - scoreOrder) > 2) layer3 = 1;
+        else if ((scoreOrder - scorePeace) > 2) layer3 = 2;
+        else if ((scorePeace - scoreLove) > 2) layer3 = 3;
+        else if ((scoreLove - scorePeace) > 2) layer3 = 4;
+        else if ((scoreLove - scoreOrder) > 2) layer3 = 5;
+        else if ((scoreOrder - scoreLove) > 2) layer3 = 6;
         else layer3 = 0;
 
-        // ¼ÆËãÎ¨Ò» ID
         return (layer1 * 35) + (layer2 * 7) + layer3 + 1;
     }
 
     private IEnumerator RequestImageCoroutine(string gameDataJson, Action<Texture2D, List<string>> onComplete)
     {
-        Debug.Log("ImageGenerationService: ¿ªÊ¼Éú³É½á¾Ö...");
+        Debug.Log("ImageGenerationService: å¼€å§‹è¯·æ±‚ API ç”Ÿæˆç»“å±€...");
 
         GameEndingData data = JsonUtility.FromJson<GameEndingData>(gameDataJson);
 
@@ -95,8 +96,7 @@ public class ImageGenerationService : MonoBehaviour
         List<string> narrativeParts;
         ConstructPromptFromRules(data, out visualPrompt, out narrativeParts);
 
-        Debug.Log("ÊÓ¾õÌáÊ¾´Ê: " + visualPrompt);
-
+        // æ„é€ è¯·æ±‚ JSON
         string jsonRequestData = $@"{{
             ""instances"": [
                 {{ ""prompt"": ""{visualPrompt.Replace("\"", "\\\"").Replace("\n", " ")}"" }}
@@ -119,9 +119,8 @@ public class ImageGenerationService : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("API Error: " + www.error + "\nBody: " + www.downloadHandler.text);
-                List<string> errorNarrative = new List<string>(narrativeParts);
-                errorNarrative.Add("(System Error: Visual Link Failed. Using Backup Archive.)");
-                onComplete?.Invoke(null, errorNarrative);
+                // å¤±è´¥æ—¶ï¼Œè¿”å› null å›¾ç‰‡ï¼Œä½†ä¿ç•™æ–‡å­—
+                onComplete?.Invoke(null, narrativeParts);
             }
             else
             {
@@ -135,16 +134,18 @@ public class ImageGenerationService : MonoBehaviour
                         byte[] imageData = Convert.FromBase64String(response.predictions[0].bytesBase64Encoded);
                         Texture2D texture = new Texture2D(2, 2);
                         texture.LoadImage(imageData);
+                        Debug.Log("API ç”Ÿå›¾æˆåŠŸï¼");
                         onComplete?.Invoke(texture, narrativeParts);
                     }
                     else
                     {
+                        Debug.LogWarning("API è¿”å›æ•°æ®ä¸ºç©º");
                         onComplete?.Invoke(null, narrativeParts);
                     }
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("½âÎöÒì³£: " + e.Message);
+                    Debug.LogError("è§£æå¼‚å¸¸: " + e.Message);
                     onComplete?.Invoke(null, narrativeParts);
                 }
             }
@@ -165,14 +166,14 @@ public class ImageGenerationService : MonoBehaviour
         // 0. Base Style
         visuals.Append("Concept art, 1970s retro-futurism style, cold war aesthetic. A frozen post-apocalyptic city centered around a massive, industrial Fusion Energy Tower. Dystopian style, film grain, low saturation colors. Wide shot, 16:9 composition. ");
 
-        // 1. Tower & Atmosphere
+        // 1. Atmosphere
         string part1 = "";
-        if (opinion > -2)
+        if (opinion > -1)
         {
             part1 = "Through the Truth Ministry's efforts, the balance between factions is maintained.";
             visuals.Append("A massive fusion tower glowing with stable, warm yellow incandescent light. ");
         }
-        else if (opinion == -2)
+        else if (opinion == -1)
         {
             part1 = "The Truth Ministry struggles to maintain the delicate balance between factions.";
             visuals.Append("A fusion tower emitting black smoke and sparks, flickering dim light. ");
@@ -184,14 +185,14 @@ public class ImageGenerationService : MonoBehaviour
         }
         narrativeParts.Add(part1);
 
-        // 2. Social Structure
+        // 2. Social
         string part2 = "";
-        if (opinion >= -1 && maxScore < 2)
+        if (opinion >= -1 && maxScore < 1)
         {
             part2 = "Civilization has gained a brief respite.";
             visuals.Append("A balanced city layout, people of different factions mixing in a concrete plaza under the tower, warm streetlights, steam pipes connecting all districts. ");
         }
-        else if (maxScore >= 3)
+        else if (maxScore >= 2)
         {
             if (scorePeace == maxScore)
             {
@@ -218,32 +219,32 @@ public class ImageGenerationService : MonoBehaviour
 
         // 3. Conflict
         string part3 = "";
-        if ((scorePeace - scoreOrder) > 4)
+        if ((scorePeace - scoreOrder) > 2)
         {
             part3 = "Truth is forced into silence at gunpoint.";
             visuals.Append("Soldiers in trench coats burning piles of paper files and microfilm reels in oil drums, ruined archive building in background. ");
         }
-        else if ((scoreOrder - scorePeace) > 4)
+        else if ((scoreOrder - scorePeace) > 2)
         {
             part3 = "A soldier's honor is worthless before the ledger.";
             visuals.Append("Industrial style drones patrolling the sky, a military officer in a tattered greatcoat begging on the roadside. ");
         }
-        else if ((scorePeace - scoreLove) > 4)
+        else if ((scorePeace - scoreLove) > 2)
         {
             part3 = "Civilians have become lambs to the slaughter in the face of absolute violence.";
             visuals.Append("Riot police with 70s style helmets and shields using water cannons on civilians, frozen ice sculptures on the street. ");
         }
-        else if ((scoreLove - scorePeace) > 4)
+        else if ((scoreLove - scorePeace) > 2)
         {
             part3 = "Anarchic revelry has reached its climax.";
             visuals.Append("A giant statue of a general being pulled down by cheering civilians, ropes and graffiti, background burning military checkpoint ruins, smoke and sparks. ");
         }
-        else if ((scoreLove - scoreOrder) > 4)
+        else if ((scoreLove - scoreOrder) > 2)
         {
             part3 = "Primal fire savagely destroys order.";
             visuals.Append("A mob with molotov cocktails storming a pristine brutalist government building, shattered glass, fire contrasting with cold blue office lights. ");
         }
-        else if ((scoreOrder - scoreLove) > 4)
+        else if ((scoreOrder - scoreLove) > 2)
         {
             part3 = "Luxury reigns atop the high tower, leaving a winter of despair for the ragged below.";
             visuals.Append("View from a high office window looking down at frozen, snow-covered slums, silent and dark. ");
